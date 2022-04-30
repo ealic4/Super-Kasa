@@ -15,6 +15,9 @@ const authReducer=(state, action)=>{
 
         case 'clear':
             return {...state, errorMessage:''};
+        
+        case 'signout':
+            return {token:null, errorMessage:''};
 
         default:
             return state;
@@ -34,10 +37,10 @@ const tryLocalSignin = dispatch => async() => {
         if (korisnik) {
 
             if (korisnik=="Admin") {
-                RootNavigation.navigate('Admin');
+                RootNavigation.reset('Admin');
             }
             else {
-                RootNavigation.navigate('Korisnik');
+                RootNavigation.reset('Korisnik');
             }
 
         }
@@ -62,7 +65,7 @@ const signup = dispatch => async ({email, password, ime, prezime, jmbg, omiljena
         dispatch({type: 'signin', payload:response.data.token});
         await AsyncStorage.setItem('korisnik', "Korisnik");
 
-        RootNavigation.navigate('Korisnik');
+        RootNavigation.reset('Korisnik');
 
 
 
@@ -84,12 +87,12 @@ const signin= dispatch => async ({email, password})=>{
         await AsyncStorage.setItem('token', response.data.token);
         dispatch({type: 'signin', payload:response.data.token})
 
-        if (email.includes('admin')) {
+        if (email=='admin') {
             await AsyncStorage.setItem('korisnik', "Admin");
-            RootNavigation.navigate('Admin');
+            RootNavigation.reset('Admin');
         }
         else {
-            RootNavigation.navigate('Korisnik');
+            RootNavigation.reset('Korisnik');
             await AsyncStorage.setItem('korisnik', "Korisnik");
         }
 
@@ -109,15 +112,19 @@ const signin= dispatch => async ({email, password})=>{
 
 
 
-const signout=(dispatch)=>{
+const signout = dispatch => async ()=>{
 
-    return ({email, password})=>{
+    await AsyncStorage.removeItem('token');
+    await AsyncStorage.removeItem('korisnik');
 
-        
+    dispatch({type: 'signout'})
 
-    };
+    RootNavigation.navigate('SignUp');
+
 
 };
+
+
 
 
 export const {Provider, Context} = createDataContext(
