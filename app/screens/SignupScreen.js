@@ -34,12 +34,12 @@ function SignUpScreen({ navigation }){
 
     <SafeAreaView style={styles.container}>
 
-      <TextInput autoCapitalize='none' style={styles.input} placeholder='Email' onChangeText={user => setEmail(user)}></TextInput>
-      <TextInput autoCapitalize='none' style={styles.input} secureTextEntry placeholder='Password' onChangeText={pas => setPassword(pas)}></TextInput>
-
       <TextInput autoCapitalize='none' style={styles.input} placeholder='Ime' onChangeText={im => setIme(im)}></TextInput>
       <TextInput autoCapitalize='none' style={styles.input} placeholder='Prezime' onChangeText={pre => setPrezime(pre)}></TextInput>
       <TextInput autoCapitalize='none' style={styles.input} placeholder='Jmbg' onChangeText={jmbg => setJmbg(jmbg)}></TextInput>
+
+      <TextInput autoCapitalize='none' style={styles.input} placeholder='Email' onChangeText={user => setEmail(user)}></TextInput>
+      <TextInput autoCapitalize='none' style={styles.input} secureTextEntry placeholder='Password' onChangeText={pas => setPassword(pas)}></TextInput>
 
       <TextInput autoCapitalize='none' style={styles.input} placeholder='Omiljena Boja' onChangeText={boja => setBoja(boja)}></TextInput>
       <TextInput autoCapitalize='none' style={styles.input} placeholder='Omiljena Zivotinja' onChangeText={zivotinja => setZivotinja(zivotinja)}></TextInput>
@@ -64,7 +64,7 @@ function SignUpScreen({ navigation }){
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#89cff0',
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },

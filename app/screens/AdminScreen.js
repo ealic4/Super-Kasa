@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import {StyleSheet, Text, TouchableOpacity, SafeAreaView} from 'react-native';
 import { Context as AuthContext } from '../context/AuthContext'
 
-function AdminScreen(){
+function AdminScreen({ navigation }){
 
   const {signout} = useContext(AuthContext);
 
@@ -10,9 +10,13 @@ function AdminScreen(){
 
     <SafeAreaView style={styles.container}>
 
-        <Text style={styles.text} >ADMIN</Text>
+        <Text style={styles.text}>ADMIN</Text>
 
-        <Text style={styles.text} >ADMIN Funkcionalnosti</Text>
+        <Text style={styles.text}>ADMIN Funkcionalnosti</Text>
+
+        <TouchableOpacity style={styles.dodaj} onPress={()=>navigation.navigate('Dodaj')}>
+        <Text style={styles.text}>DODAJ NOVOG KoRISNIKA</Text>
+        </TouchableOpacity>
 
         <TouchableOpacity style={styles.button} onPress={signout}>
         <Text style={styles.text}>SIGN OUT</Text>
@@ -27,7 +31,7 @@ function AdminScreen(){
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#89cff0',
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -49,6 +53,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     position: 'absolute',
     bottom: "8%",
+  },
+  dodaj: {
+    backgroundColor: "#46b4e7",
+    width: '60%',
+    height: 55,
+    padding: 14,
+    borderRadius:20,
+    margin: 10,
+    marginTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: "18%",
   },
 });
 
