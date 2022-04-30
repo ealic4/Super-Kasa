@@ -1,15 +1,23 @@
-import React from 'react';
-import {StyleSheet, Text, SafeAreaView} from 'react-native';
+import React, { useContext } from 'react';
+import {StyleSheet, Text, TouchableOpacity, SafeAreaView} from 'react-native';
+import { Context as AuthContext } from '../context/AuthContext'
 
-function KorisnikScreen({ navigation }){
+function KorisnikScreen(){
+
+  const {signout} = useContext(AuthContext);
+
 
   return (
 
     <SafeAreaView style={styles.container}>
 
-        <Text style={styles.text} >KORISNIK</Text>
+        <Text style={styles.text}>KORISNIK</Text>
         
-        <Text style={styles.text} >KORISNIK Funkcionalnosti</Text>
+        <Text style={styles.text}>KORISNIK Funkcionalnosti</Text>
+
+        <TouchableOpacity style={styles.button} onPress={signout}>
+        <Text style={styles.text}>SIGN OUT</Text>
+        </TouchableOpacity>
 
 
     </SafeAreaView>
@@ -30,6 +38,19 @@ const styles = StyleSheet.create({
     fontSize: 22,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+    button: {
+    backgroundColor: "#46b4e7",
+    width: '60%',
+    height: 55,
+    padding: 14,
+    borderRadius:20,
+    margin: 10,
+    marginTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: "8%",
   },
 });
 
