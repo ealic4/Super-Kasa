@@ -6,6 +6,8 @@ import KorisnikScreen from './app/screens/KorisnikScreen';
 import AdminScreen from './app/screens/AdminScreen';
 import LoginScreen from './app/screens/LoginScreen';
 import SignUpScreen from './app/screens/SignupScreen';
+import DodavanjeKorisnika from './app/screens/DodavanjeKorisnikaScreen';
+
 import {Provider as AuthProvider} from './app/context/AuthContext';
 import { navigationRef } from './app/RootNavigation';
 
@@ -21,8 +23,10 @@ function App() {
         <Stack.Screen name="Login" component={LoginScreen} />
 
         <Stack.Screen name="Korisnik" component={KorisnikScreen} />
+
         <Stack.Screen name="Admin" component={AdminScreen} />
-    
+        <Stack.Screen name="Dodaj" component={DodavanjeKorisnika} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

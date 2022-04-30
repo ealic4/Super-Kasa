@@ -14,10 +14,13 @@ const authReducer=(state, action)=>{
             return {errorMessage:'', token: action.payload};
 
         case 'clear':
-            return {...state, errorMessage:''};
+            return {dodan:'', errorMessage:''};
         
         case 'signout':
             return {token:null, errorMessage:''};
+        
+        case 'dodaj':
+            return {errorMessage:'', dodan:'Korisnik uspješno dodan!'};
 
         default:
             return state;
@@ -124,13 +127,31 @@ const signout = dispatch => async ()=>{
 
 };
 
+const dodavanje = dispatch => async ({email, password, ime, prezime, jmbg, omiljenaBoja, omiljenaZivotinja})=>{
 
+    try {
+        
+        const response = await trackerApi.post('/dodaj', {email, password, ime, prezime, jmbg, omiljenaBoja, omiljenaZivotinja});
+
+        dispatch({type: 'dodaj', payload:response.data.token});
+
+        console.log("DODANO")
+
+
+    } catch (err) {
+        console.log("NEEE RADI DODAJ")
+
+        dispatch({type: 'add_error', payload: 'Doslo je do greske'});
+
+    }
+
+};
 
 
 export const {Provider, Context} = createDataContext(
 
     authReducer,
-    {signin, signout, signup, clearErrorMessage, tryLocalSignin},
-    {token: null, errorMessage:''}
+    {signin, signout, signup, dodavanje, clearErrorMessage, tryLocalSignin},
+    {token: null, errorMessage:'', dodan:''}
 
 );
