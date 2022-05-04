@@ -29,7 +29,11 @@ function AdminScreen({ navigation }){
         <Text style={styles.text}>ADMIN Funkcionalnosti</Text>
 
         <TouchableOpacity style={styles.dodaj} onPress={()=>navigation.navigate('Dodaj')}>
-        <Text style={styles.text}>DODAJ NOVOG KoRISNIKA</Text>
+        <Text style={styles.text}>DODAJ NOVOG KORISNIKA</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button} onPress={navigation.navigate('ListaK')}>
+        <Text style={styles.text}>PREGLED KORISNIKA</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button} onPress={signout}>
