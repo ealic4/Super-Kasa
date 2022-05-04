@@ -5,7 +5,7 @@ import { Context as AuthContext } from '../context/AuthContext'
 
 function KorisnkEditScreen({ navigation }){
 
-  const {state, clearErrorMessage} = useContext(AuthContext);
+  const {state, izmjenaKorisnika, obrisiKorisnika, clearErrorMessage} = useContext(AuthContext);
 
   const [emailS, setSEmail] = useState('');
   const [passwordS, setSPassword ] = useState('');
@@ -76,6 +76,11 @@ function KorisnkEditScreen({ navigation }){
       <TouchableOpacity style={styles.button} onPress={()=>izmjenaKorisnika({email, password, ime, prezime, jmbg, omiljenaBoja, omiljenaZivotinja})} >
         <Text style={styles.text}>IZMIJENI</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button} onPress={()=>obrisiKorisnika(email)} >
+      <Text style={styles.text}>OBRISI KORISNIKA</Text>
+      </TouchableOpacity>
+
 
     </SafeAreaView>
 

@@ -8,13 +8,6 @@ function AdminScreen({ navigation }){
 
   const {state, listaKorisnika} = useContext(AuthContext);
 
-  useFocusEffect(
-    React.useCallback(() => {
-
-
-    }, [])
-  );
-
   const listaK = ()=>{
 
     listaKorisnika()  
@@ -28,12 +21,12 @@ function AdminScreen({ navigation }){
 
         <Text style={styles.text}>ADMIN Funkcionalnosti</Text>
 
-        <TouchableOpacity style={styles.dodaj} onPress={()=>navigation.navigate('Dodaj')}>
-        <Text style={styles.text}>DODAJ NOVOG KORISNIKA</Text>
+        <TouchableOpacity style={styles.edit} onPress={listaK}>
+        <Text style={styles.text}>PREGLED KORISNIKA</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button} onPress={navigation.navigate('ListaK')}>
-        <Text style={styles.text}>PREGLED KORISNIKA</Text>
+        <TouchableOpacity style={styles.dodaj} onPress={()=>navigation.navigate('Dodaj')}>
+        <Text style={styles.text}>DODAJ NOVOG KORISNIKA</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button} onPress={signout}>
@@ -84,6 +77,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     position: 'absolute',
     bottom: "18%",
+  },
+  edit: {
+    backgroundColor: "#46b4e7",
+    width: '60%',
+    height: 55,
+    padding: 14,
+    borderRadius:20,
+    margin: 10,
+    marginTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: "28%",
   },
 });
 
