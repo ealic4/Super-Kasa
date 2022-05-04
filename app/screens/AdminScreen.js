@@ -6,6 +6,20 @@ function AdminScreen({ navigation }){
 
   const {signout} = useContext(AuthContext);
 
+  const {state, listaKorisnika} = useContext(AuthContext);
+
+  useFocusEffect(
+    React.useCallback(() => {
+
+
+    }, [])
+  );
+
+  const listaK = ()=>{
+
+    listaKorisnika()  
+  }
+
   return (
 
     <SafeAreaView style={styles.container}>

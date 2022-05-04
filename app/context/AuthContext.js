@@ -143,6 +143,99 @@ const dodavanje = dispatch => async ({email, password, ime, prezime, jmbg, omilj
 
         dispatch({type: 'add_error', payload: 'Doslo je do greske'});
 
+        
+
+    }
+
+};
+
+const izmjenaKorisnika = dispatch => async ({email, password, ime, prezime, jmbg, omiljenaBoja, omiljenaZivotinja}) => {
+
+    try {
+        const response = await trackerApi.post('/korisnikEdit', {email, password, ime, prezime, jmbg, omiljenaBoja, omiljenaZivotinja});
+
+        dispatch({type: 'korisnikEdit', payload:response.data.token});
+
+        console.log("DODANO")
+    
+    } catch(err) {
+        console.log("NEEE RADI IZMIJENI")
+
+        dispatch({type: 'add_error', payload: 'Doslo je do greske'});
+    }
+    
+
+}
+
+
+const listaKorisnika = dispatch => async ()=>{
+
+    try {
+        
+        const response = await trackerApi.get('/korisnici')
+
+
+        try{
+            console.log("1:"+ response.data.lista[0].id )
+            dispatch({type: 'list', payload: response.data.lista  })
+    
+        }
+        catch(e){
+            
+            const response = await trackerApi.get('/korisnici')
+
+            dispatch({type: 'list', payload: response.data.lista  })
+            console.log("2: "+ response.data.lista )
+
+
+        }
+
+        RootNavigation.navigate('ListaK');
+     
+
+    } catch (err) {
+
+        console.log("NEEE RADI DODAJ")
+
+        dispatch({type: 'add_error', payload: 'Doslo je do greske'});
+
+    }
+
+};
+
+const korisnikPod = dispatch => async (email)=>{
+
+    try {
+
+        console.log("|"+email+"|");
+        
+        const response = await trackerApi.get('/korisnikPodaci/'+ email )
+        
+
+        try{
+        console.log( response.data.user.prezime )
+        dispatch({type: 'edit', payload: response.data  })
+
+        }
+        catch(e){
+
+            const response = await trackerApi.get('/korisnikPodaci/'+ email )
+        
+            dispatch({type: 'edit', payload: response.data  })
+            console.log("2: "+ response.data.user.prezime )
+
+
+        }
+  
+        RootNavigation.navigate('KorisnikEdit');
+     
+    
+    } catch (err) {
+
+        console.log("NEEE RADI DODAJ")
+
+        dispatch({type: 'add_error', payload: 'Doslo je do greske'});
+
     }
 
 };
