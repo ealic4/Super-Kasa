@@ -17,4 +17,5 @@ const logSchema = mongoose.Schema({
   opisAkcije: String,
 });
 
+
 module.exports = mongoose.model("Log", logSchema);
