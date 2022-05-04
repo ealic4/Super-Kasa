@@ -193,17 +193,38 @@ router.post("/signin", async (req, res) => {
 
     const user = await User.findOne(  { 'email': req.params.email });
 
-    if(user)
-    console.log("ssss:"+user.toString());
-
-    else {
-        console.log("ssss:eeeee");
-
-    }
-
     res.send({user});
 
   
+});
+
+router.delete("/izbrisi/:email", async (req, res) => {
+
+  const user = await User.findOne(  { 'email': req.params.email });
+
+  console.log("email:"+ req.params.email)
+
+  if(user){
+      User.deleteOne({
+      email: req.params.email,
+    }, function (err, user) {
+
+  if (err)
+    res.send("Ne postoji korisnik");
+
+    console.log('User successfully removed!');
+    res.send('Korisnik Izbrisan');
+
+
+    });
+  }
+
+  else 
+    res.send("Ne postoji korisnik");
+
+
+  
+
 });
 
 

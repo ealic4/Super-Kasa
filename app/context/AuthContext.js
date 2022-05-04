@@ -20,6 +20,13 @@ const authReducer = (state, action) => {
     case "dodaj":
       return { errorMessage: "", dodan: "Korisnik uspješno dodan!" };
 
+    case 'list':
+          return {...state, list: action.payload};
+
+    case 'edit':
+          console.log("DODANO")
+          return {...state, edit: action.payload};
+
     default:
       return state;
   }
@@ -111,12 +118,13 @@ const signout = (dispatch) => async () => {
     email: await AsyncStorage.getItem("email"),
   };
 
-  let response = await trackerApi.post("/singout", user);
+  trackerApi.post("/singout", user);
 
   await AsyncStorage.removeItem("token");
   await AsyncStorage.removeItem("korisnik");
   await AsyncStorage.removeItem("id");
   await AsyncStorage.removeItem("email");
+
   dispatch({ type: "signout" });
 
   RootNavigation.navigate("SignUp");
@@ -245,8 +253,33 @@ const korisnikPod = dispatch => async (email)=>{
     }
   };
 
+
+  const obrisiKorisnika = dispatch => async (email)=>{
+
+    try {
+
+      console.log("email: "+email)
+        
+        const response = await trackerApi.delete('/izbrisi/'+ email );
+
+        RootNavigation.reset('Admin');
+
+        console.log("RADI DODAJ")
+
+
+    } catch (err) {
+
+      console.log("NEEE RADI DODAJ")
+
+        
+        dispatch({type: 'add_error', payload: 'Doslo je do greske'});
+
+    }
+
+};
+
 export const { Provider, Context } = createDataContext(
   authReducer,
-  { signin, signout, signup, dodavanje, clearErrorMessage, tryLocalSignin },
-  { token: null, errorMessage: "", dodan: "" }
+  { signin, signout, signup, dodavanje, listaKorisnika, korisnikPod, izmjenaKorisnika, obrisiKorisnika, clearErrorMessage, tryLocalSignin },
+  { token: null, errorMessage: "", dodan: "", list:null, edit:''}
 );
