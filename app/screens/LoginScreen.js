@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import {StyleSheet, Text, TouchableOpacity, SafeAreaView, TextInput} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, SafeAreaView} from 'react-native';
+import {TextInput} from 'react-native-paper';
 import { Context as AuthContext } from '../context/AuthContext'
 
 
@@ -20,9 +21,9 @@ function LoginScreen({ navigation }){
 
     <SafeAreaView style={styles.container}>
 
-      <TextInput autoCapitalize='none' label='email' style={styles.input} placeholder='Email' onChangeText={user => setEmail(user)}></TextInput>
+      <TextInput autoCapitalize='none' label='Email' mode='outlined' style={styles.input} placeholder='Email' onChangeText={user => setEmail(user)}></TextInput>
 
-      <TextInput autoCapitalize='none' style={styles.input} secureTextEntry placeholder='Password' onChangeText={pas => setPassword(pas)}></TextInput>
+      <TextInput autoCapitalize='none' label='Password' mode='outlined' style={styles.input} secureTextEntry placeholder='Password' onChangeText={pas => setPassword(pas)}></TextInput>
 
       {state.errorMessage ? <Text style={styles.errorMes}>{state.errorMessage}</Text> : null}
 
@@ -49,12 +50,9 @@ const styles = StyleSheet.create({
   },
   input: {
     borderColor:'gray',
-    borderWidth:0.5,
     borderRadius:20,
-    padding: 14,
     margin: 10,
     fontSize: 22,
-    alignItems: 'center',
     justifyContent: 'center',
     width: '90%'
   },
@@ -62,8 +60,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#46b4e7",
     width: '60%',
-    height: 55,
-    padding: 14,
+    height: 50,
     borderRadius:20,
     margin: 10,
     marginTop: 20,

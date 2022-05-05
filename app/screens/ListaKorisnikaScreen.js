@@ -11,8 +11,6 @@ const ListaKorisnikaScreen = ({ navigation }) => {
 
     const getItem = (name) => {
  
-        console.log("|"+name+"|");
-
         korisnikPod(name);
 
       }        

@@ -17,9 +17,8 @@ function AdminScreen({ navigation }){
 
     <SafeAreaView style={styles.container}>
 
-        <Text style={styles.text}>ADMIN</Text>
+        <Text style={styles.naslov}>ADMIN</Text>
 
-        <Text style={styles.text}>ADMIN Funkcionalnosti</Text>
 
         <TouchableOpacity style={styles.edit} onPress={listaK}>
         <Text style={styles.text}>PREGLED KORISNIKA</Text>
@@ -51,6 +50,14 @@ const styles = StyleSheet.create({
     fontSize: 22,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  naslov: {
+    color: "#4a4b44",
+    fontSize: 32,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    top:"15%"
   },
     button: {
     backgroundColor: "#46b4e7",

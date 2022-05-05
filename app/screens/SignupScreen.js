@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import {StyleSheet, Text, TouchableOpacity, SafeAreaView, TextInput} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, SafeAreaView} from 'react-native';
+import {TextInput} from 'react-native-paper';
 import { Context as AuthContext } from '../context/AuthContext'
 
 function SignUpScreen({ navigation }){
@@ -34,15 +35,15 @@ function SignUpScreen({ navigation }){
 
     <SafeAreaView style={styles.container}>
 
-      <TextInput autoCapitalize='none' style={styles.input} placeholder='Ime' onChangeText={im => setIme(im)}></TextInput>
-      <TextInput autoCapitalize='none' style={styles.input} placeholder='Prezime' onChangeText={pre => setPrezime(pre)}></TextInput>
-      <TextInput autoCapitalize='none' style={styles.input} placeholder='Jmbg' onChangeText={jmbg => setJmbg(jmbg)}></TextInput>
+      <TextInput autoCapitalize='none' label='Ime' mode='outlined' style={styles.input} placeholder='Ime' onChangeText={im => setIme(im)}></TextInput>
+      <TextInput autoCapitalize='none' label='Prezime' mode='outlined' style={styles.input} placeholder='Prezime' onChangeText={pre => setPrezime(pre)}></TextInput>
+      <TextInput autoCapitalize='none' label='Jmbg' mode='outlined' style={styles.input} placeholder='Jmbg' onChangeText={jmbg => setJmbg(jmbg)}></TextInput>
 
-      <TextInput autoCapitalize='none' style={styles.input} placeholder='Email' onChangeText={user => setEmail(user)}></TextInput>
-      <TextInput autoCapitalize='none' style={styles.input} secureTextEntry placeholder='Password' onChangeText={pas => setPassword(pas)}></TextInput>
+      <TextInput autoCapitalize='none' label='Email' mode='outlined' style={styles.input} placeholder='Email' onChangeText={user => setEmail(user)}></TextInput>
+      <TextInput autoCapitalize='none' label='Password' mode='outlined' style={styles.input} secureTextEntry placeholder='Password' onChangeText={pas => setPassword(pas)}></TextInput>
 
-      <TextInput autoCapitalize='none' style={styles.input} placeholder='Omiljena Boja' onChangeText={boja => setBoja(boja)}></TextInput>
-      <TextInput autoCapitalize='none' style={styles.input} placeholder='Omiljena Zivotinja' onChangeText={zivotinja => setZivotinja(zivotinja)}></TextInput>
+      <TextInput autoCapitalize='none' label='Omiljena Boja' mode='outlined' style={styles.input} placeholder='Omiljena Boja' onChangeText={boja => setBoja(boja)}></TextInput>
+      <TextInput autoCapitalize='none' label='Omiljena Zivotinja' mode='outlined' style={styles.input} placeholder='Omiljena Zivotinja' onChangeText={zivotinja => setZivotinja(zivotinja)}></TextInput>
 
 
       {state.errorMessage ? <Text style={styles.errorMes}>{state.errorMessage}</Text> : null}
@@ -70,12 +71,9 @@ const styles = StyleSheet.create({
   },
   input: {
     borderColor:'gray',
-    borderWidth:0.5,
-    borderRadius:20,
-    padding: 5,
-    margin: 10,
-    fontSize: 18,
-    alignItems: 'center',
+    height: 45,
+    margin: 2,
+    fontSize: 12,
     justifyContent: 'center',
     width: '90%'
   },
@@ -87,7 +85,7 @@ const styles = StyleSheet.create({
     padding: 11,
     borderRadius:20,
     margin: 5,
-    marginTop: 8,
+    marginTop: 12,
     justifyContent: 'center',
   },
   text: {

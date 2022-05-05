@@ -140,8 +140,11 @@ const dodavanje =
     jmbg,
     omiljenaBoja,
     omiljenaZivotinja,
+    value,
   }) => {
     try {
+      console.log("tipKor: "+value)
+
       const response = await trackerApi.post("/dodaj", {
         email,
         password,
@@ -150,6 +153,7 @@ const dodavanje =
         jmbg,
         omiljenaBoja,
         omiljenaZivotinja,
+        value,
       });
 
       dispatch({ type: "dodaj", payload: response.data.token });
@@ -157,6 +161,7 @@ const dodavanje =
       console.log("DODANO");
     } catch (err) {
       console.log("NEEE RADI DODAJ");
+      console.log(err);
 
       dispatch({ type: "add_error", payload: "Doslo je do greske" });
         
@@ -164,18 +169,22 @@ const dodavanje =
 
 };
 
-const izmjenaKorisnika = dispatch => async ({email, password, ime, prezime, jmbg, omiljenaBoja, omiljenaZivotinja}) => {
+const izmjenaKorisnika = dispatch => async ({email, password, ime, prezime, jmbg, omiljenaBoja, omiljenaZivotinja, value}) => {
 
     try {
-        const response = await trackerApi.post('/korisnikEdit', {email, password, ime, prezime, jmbg, omiljenaBoja, omiljenaZivotinja});
 
-        dispatch({type: 'korisnikEdit', payload:response.data.token});
+        const response = await trackerApi.post('/korisnikEdit', {email, password, ime, prezime, jmbg, omiljenaBoja, omiljenaZivotinja, value});
+
+        //dispatch({type: 'korisnikEdit', payload:response.data.token});
+
+        console.log(email)
 
         RootNavigation.navigate("Admin");
 
     
     } catch(err) {
         console.log("NEEE RADI IZMIJENI")
+        console.log(err)
 
         dispatch({type: 'add_error', payload: 'Doslo je do greske'});
     }
