@@ -9,6 +9,7 @@ import SignUpScreen from './app/screens/SignupScreen';
 import DodavanjeKorisnika from './app/screens/DodavanjeKorisnikaScreen';
 import ListaKorisnikaScreen from './app/screens/ListaKorisnikaScreen';
 import KorisnkEditScreen from './app/screens/KorisnikEditScreen';
+import KorisnikSifra from './app/screens/KorisnikSifra'
 
 import {Provider as AuthProvider} from './app/context/AuthContext';
 import { navigationRef } from './app/RootNavigation';
@@ -32,6 +33,7 @@ function App() {
 
         <Stack.Screen name="ListaK" component={ListaKorisnikaScreen} />
         <Stack.Screen name="KorisnikEdit" component={KorisnkEditScreen} />
+        <Stack.Screen name="KorisnikS" component={KorisnikSifra} />
 
 
       </Stack.Navigator>
