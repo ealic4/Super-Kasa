@@ -26,26 +26,26 @@ function KorisnkEditScreen({ navigation }){
   useFocusEffect(
     React.useCallback(() => {
 
-        setSIme( state.edit.user.ime );
-        setSPrezime( state.edit.user.prezime );
-        setSJmbg( state.edit.user.jmbg );
+        setSIme( state.edit.user.ime.trim() );
+        setSPrezime( state.edit.user.prezime.trim() );
+        setSJmbg( state.edit.user.jmbg.trim() );
   
-        setSEmail( state.edit.user.email );
-        //setPassword( state.edit.user.password );
+        setSEmail( state.edit.user.email.trim() );
+        setSPassword( state.edit.user.password.trim() );
   
-        setSBoja( state.edit.user.omiljenaBoja );
-        setSZivotinja( state.edit.user.omiljenaZivotinja );
+        setSBoja( state.edit.user.omiljenaBoja.trim() );
+        setSZivotinja( state.edit.user.omiljenaZivotinja.trim() );
 
 
-        setIme( state.edit.user.ime );
-        setPrezime( state.edit.user.prezime );
-        setJmbg( state.edit.user.jmbg );
+        setIme( state.edit.user.ime.trim() );
+        setPrezime( state.edit.user.prezime.trim() );
+        setJmbg( state.edit.user.jmbg.trim() );
   
-        setEmail( state.edit.user.email );
-        //setPassword( state.edit.user.password );
+        setEmail( state.edit.user.email.trim() );
+        setPassword( state.edit.user.password.trim() );
   
         setBoja( state.edit.user.omiljenaBoja );
-        setZivotinja( state.edit.user.omiljenaZivotinja );
+        setZivotinja( state.edit.user.omiljenaZivotinja.trim() );
 
     }, [])
   );
@@ -63,15 +63,15 @@ function KorisnkEditScreen({ navigation }){
 
     <SafeAreaView style={styles.container}>
 
-      <TextInput autoCapitalize='none' style={styles.input} placeholder='Ime' onFocus={()=>clearErrorMessage()} onChangeText={im => setIme(im)}> {imeS} </TextInput>
-      <TextInput autoCapitalize='none' style={styles.input} placeholder='Prezime' onFocus={()=>clearErrorMessage()} onChangeText={pre => setPrezime(pre)}> {prezimeS} </TextInput>
-      <TextInput autoCapitalize='none' style={styles.input} placeholder='Jmbg' editable = {false} onFocus={()=>clearErrorMessage()} onChangeText={jmbg => setJmbg(jmbg)}> {jmbgS} </TextInput>
+      <TextInput autoCapitalize='none' style={styles.input} placeholder='Ime' onFocus={()=>clearErrorMessage()} onChangeText={im => setIme(im.trim())}> {imeS} </TextInput>
+      <TextInput autoCapitalize='none' style={styles.input} placeholder='Prezime' onFocus={()=>clearErrorMessage()} onChangeText={pre => setPrezime(pre.trim())}> {prezimeS} </TextInput>
+      <TextInput autoCapitalize='none' style={styles.input} placeholder='Jmbg' editable = {false} onFocus={()=>clearErrorMessage()} onChangeText={jmbg => setJmbg(jmbg.trim())}> {jmbgS} </TextInput>
 
-      <TextInput autoCapitalize='none' style={styles.input} placeholder='Email' onFocus={()=>clearErrorMessage()} onChangeText={user => setEmail(user)}> {emailS} </TextInput>
-      <TextInput autoCapitalize='none' style={styles.input} placeholder='Password' onFocus={()=>clearErrorMessage()} onChangeText={pas => setPassword(pas)}> {passwordS} </TextInput>
+      <TextInput autoCapitalize='none' style={styles.input} placeholder='Email' onFocus={()=>clearErrorMessage()} onChangeText={user => setEmail(user.trim())}> {emailS} </TextInput>
+      <TextInput autoCapitalize='none' style={styles.input} placeholder='Password' onFocus={()=>clearErrorMessage()} onChangeText={pas => setPassword(pas.trim())}> {passwordS} </TextInput>
 
-      <TextInput autoCapitalize='none' style={styles.input} placeholder='Omiljena Boja' onFocus={()=>clearErrorMessage()} onChangeText={boja => setBoja(boja)}> {omiljenaBojaS} </TextInput>
-      <TextInput autoCapitalize='none' style={styles.input} placeholder='Omiljena Zivotinja' onFocus={()=>clearErrorMessage()} onChangeText={zivotinja => setZivotinja(zivotinja)}> {omiljenaZivotinjaS} </TextInput>
+      <TextInput autoCapitalize='none' style={styles.input} placeholder='Omiljena Boja' onFocus={()=>clearErrorMessage()} onChangeText={boja => setBoja(boja.trim())}> {omiljenaBojaS} </TextInput>
+      <TextInput autoCapitalize='none' style={styles.input} placeholder='Omiljena Zivotinja' onFocus={()=>clearErrorMessage()} onChangeText={zivotinja => setZivotinja(zivotinja.trim())}> {omiljenaZivotinjaS} </TextInput>
 
       <TouchableOpacity style={styles.button} onPress={()=>izmjenaKorisnika({email, password, ime, prezime, jmbg, omiljenaBoja, omiljenaZivotinja})} >
         <Text style={styles.text}>IZMIJENI</Text>

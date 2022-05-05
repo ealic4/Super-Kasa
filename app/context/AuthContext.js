@@ -171,7 +171,8 @@ const izmjenaKorisnika = dispatch => async ({email, password, ime, prezime, jmbg
 
         dispatch({type: 'korisnikEdit', payload:response.data.token});
 
-        console.log("DODANO")
+        RootNavigation.navigate("Admin");
+
     
     } catch(err) {
         console.log("NEEE RADI IZMIJENI")
