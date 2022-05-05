@@ -231,11 +231,8 @@ const listaKorisnika = dispatch => async ()=>{
 const korisnikPod = dispatch => async (email)=>{
 
     try {
-
-        console.log("|"+email+"|");
         
-        const response = await trackerApi.get('/korisnikPodaci/'+ email )
-        
+        const response = await trackerApi.get('/korisnikPodaci/'+ email )        
 
         try{
         console.log( response.data.user.prezime )
@@ -288,8 +285,68 @@ const korisnikPod = dispatch => async (email)=>{
 
 };
 
+const korisnikPod2 = dispatch => async ()=>{
+
+  try {
+    
+      const mail = await AsyncStorage.getItem("email");
+
+      
+      const response = await trackerApi.get('/korisnikPodaci/'+ mail )        
+
+      try{
+      console.log( response.data.user.prezime )
+      dispatch({type: 'edit', payload: response.data  })
+
+      }
+      catch(e){
+
+          const response = await trackerApi.get('/korisnikPodaci/'+ mail )
+      
+          dispatch({type: 'edit', payload: response.data  })
+          console.log("2: "+ response.data.user.prezime )
+
+
+      }
+
+      RootNavigation.navigate('KorisnikS');
+   
+  
+  } catch (err) {
+
+      console.log("NEEE RADI DODAJ")
+
+      dispatch({type: 'add_error', payload: 'Doslo je do greske'});
+  }
+};
+
+const izmjenaKorisnika2 = dispatch => async ({email, password, ime, prezime, jmbg, omiljenaBoja, omiljenaZivotinja, value}) => {
+
+  try {
+
+      console.log("PASS "+ password)
+
+      const response = await trackerApi.post('/korisnikEdit', {email, password, ime, prezime, jmbg, omiljenaBoja, omiljenaZivotinja, value});
+
+      //dispatch({type: 'korisnikEdit', payload:response.data.token});
+
+      console.log(email)
+
+      RootNavigation.navigate("Korisnik");
+
+  
+  } catch(err) {
+      console.log("NEEE RADI IZMIJENI")
+      console.log(err)
+
+      dispatch({type: 'add_error', payload: 'Doslo je do greske'});
+  }
+  
+
+}
+
 export const { Provider, Context } = createDataContext(
   authReducer,
-  { signin, signout, signup, dodavanje, listaKorisnika, korisnikPod, izmjenaKorisnika, obrisiKorisnika, clearErrorMessage, tryLocalSignin },
+  { signin, signout, signup, dodavanje, listaKorisnika, korisnikPod, korisnikPod2, izmjenaKorisnika, izmjenaKorisnika2, obrisiKorisnika, clearErrorMessage, tryLocalSignin },
   { token: null, errorMessage: "", dodan: "", list:null, edit:''}
 );
