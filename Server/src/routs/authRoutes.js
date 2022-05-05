@@ -159,8 +159,16 @@ router.post("/signin", async (req, res) => {
                     omiljenaZivotinja:izmjena.omiljenaZivotinja
                 }
             });
+            const log = new Log({
+              korisnikId: user._id,
+              korisnikEmail: user.email,
+              tipKorisnika: korisnik,
+              vrijeme: new Date().toLocaleString("en-GB"),
+              opisAkcije: `Korisnik sa emailom '${user.email}' je promijenio svoje podatke`,
+            });
         const user= await User.findOne({jmbg});
         const token = jwt.sign({userId: user._id}, 'MY_SECRET_KEY');
+        await log.save();
         res.send({token});
 
     } catch(err) {
