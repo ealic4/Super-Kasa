@@ -41,6 +41,7 @@ router.post("/signup", async (req, res) => {
   } = req.body;
 
   try {
+    var tip="Korisnik"
     const user = new User({
       email,
       password,
@@ -49,6 +50,7 @@ router.post("/signup", async (req, res) => {
       jmbg,
       omiljenaBoja,
       omiljenaZivotinja,
+      tip
     });
     const log = new Log({
       korisnikId: user._id,
@@ -76,9 +78,11 @@ router.post("/dodaj", async (req, res) => {
     jmbg,
     omiljenaBoja,
     omiljenaZivotinja,
+    value,
   } = req.body;
 
   try {
+    var tip=value
     const user = new User({
       email,
       password,
@@ -87,6 +91,7 @@ router.post("/dodaj", async (req, res) => {
       jmbg,
       omiljenaBoja,
       omiljenaZivotinja,
+      tip,
     });
     const log = new Log({
       korisnikId: user._id,
@@ -141,10 +146,12 @@ router.post("/signin", async (req, res) => {
 
 
  router.post("/korisnikEdit", async (req,res) => { 
-    const {email, password, ime, prezime, jmbg, omiljenaBoja, omiljenaZivotinja} = req.body;
+    const {email, password, ime, prezime, jmbg, omiljenaBoja, omiljenaZivotinja, value} = req.body;
 
     try {
-        const izmjena = new User({email, password, ime, prezime, jmbg, omiljenaBoja, omiljenaZivotinja});
+        var tip=value
+        console.log(tip)
+        const izmjena = new User({email, password, ime, prezime, jmbg, omiljenaBoja, omiljenaZivotinja, tip});
         await User.updateOne(
             {
                 jmbg:izmjena.jmbg
@@ -156,15 +163,16 @@ router.post("/signin", async (req, res) => {
                     ime:izmjena.ime,
                     prezime:izmjena.prezime,
                     omiljenaBoja:izmjena.omiljenaBoja,
-                    omiljenaZivotinja:izmjena.omiljenaZivotinja
+                    omiljenaZivotinja:izmjena.omiljenaZivotinja,
+                    tip:izmjena.tip
                 }
             });
             const log = new Log({
-              korisnikId: user._id,
-              korisnikEmail: user.email,
-              tipKorisnika: korisnik,
+              korisnikId: izmjena._id,
+              korisnikEmail: izmjena.email,
+              tipKorisnika: "Korisnik",
               vrijeme: new Date().toLocaleString("en-GB"),
-              opisAkcije: `Korisnik sa emailom '${user.email}' je promijenio svoje podatke`,
+              opisAkcije: `Korisnik sa emailom '${izmjena.email}' je promijenio svoje podatke`,
             });
         const user= await User.findOne({jmbg});
         const token = jwt.sign({userId: user._id}, 'MY_SECRET_KEY');

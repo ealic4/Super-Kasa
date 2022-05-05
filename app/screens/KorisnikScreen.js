@@ -11,10 +11,8 @@ function KorisnikScreen(){
 
     <SafeAreaView style={styles.container}>
 
-        <Text style={styles.text}>KORISNIK</Text>
-        
-        <Text style={styles.text}>KORISNIK Funkcionalnosti</Text>
-
+        <Text style={styles.naslov}>KORISNIK</Text>
+      
         <TouchableOpacity style={styles.button} onPress={signout}>
         <Text style={styles.text}>SIGN OUT</Text>
         </TouchableOpacity>
@@ -38,6 +36,14 @@ const styles = StyleSheet.create({
     fontSize: 22,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  naslov: {
+    color: "#4a4b44",
+    fontSize: 32,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    top:"15%"
   },
     button: {
     backgroundColor: "#46b4e7",

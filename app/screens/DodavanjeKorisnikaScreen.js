@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import {StyleSheet, Text, TouchableOpacity, SafeAreaView, TextInput} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, SafeAreaView, View} from 'react-native';
+import {TextInput, RadioButton} from 'react-native-paper';
 import { Context as AuthContext } from '../context/AuthContext'
 
 function DodavanjeKorisnika({ navigation }){
@@ -14,6 +15,7 @@ function DodavanjeKorisnika({ navigation }){
   const [jmbg, setJmbg] = useState('');
   const [omiljenaBoja, setBoja ] = useState('');
   const [omiljenaZivotinja, setZivotinja ] = useState(''); 
+  const [value, setValue] = useState('Korisnik');
 
   useFocusEffect(
     React.useCallback(() => {
@@ -31,21 +33,43 @@ function DodavanjeKorisnika({ navigation }){
 
     <SafeAreaView style={styles.container}>
 
-      <TextInput autoCapitalize='none' style={styles.input} placeholder='Ime' onFocus={()=>clearErrorMessage()} onChangeText={im => setIme(im)}></TextInput>
-      <TextInput autoCapitalize='none' style={styles.input} placeholder='Prezime' onFocus={()=>clearErrorMessage()} onChangeText={pre => setPrezime(pre)}></TextInput>
-      <TextInput autoCapitalize='none' style={styles.input} placeholder='Jmbg' onFocus={()=>clearErrorMessage()} onChangeText={jmbg => setJmbg(jmbg)}></TextInput>
+      <TextInput autoCapitalize='none' label='Ime' mode='outlined'  style={styles.input} placeholder='Ime' onFocus={()=>clearErrorMessage()} onChangeText={im => setIme(im)}></TextInput>
+      <TextInput autoCapitalize='none' label='Prezime' mode='outlined'  style={styles.input} placeholder='Prezime' onFocus={()=>clearErrorMessage()} onChangeText={pre => setPrezime(pre)}></TextInput>
+      <TextInput autoCapitalize='none' label='Jmbg' mode='outlined'  style={styles.input} placeholder='Jmbg' onFocus={()=>clearErrorMessage()} onChangeText={jmbg => setJmbg(jmbg)}></TextInput>
 
-      <TextInput autoCapitalize='none' style={styles.input} placeholder='Email' onFocus={()=>clearErrorMessage()} onChangeText={user => setEmail(user)}></TextInput>
-      <TextInput autoCapitalize='none' style={styles.input} secureTextEntry placeholder='Password' onFocus={()=>clearErrorMessage()} onChangeText={pas => setPassword(pas)}></TextInput>
+      <TextInput autoCapitalize='none' label='Email' mode='outlined'  style={styles.input} placeholder='Email' onFocus={()=>clearErrorMessage()} onChangeText={user => setEmail(user)}></TextInput>
+      <TextInput autoCapitalize='none' label='Password' mode='outlined'  style={styles.input} secureTextEntry placeholder='Password' onFocus={()=>clearErrorMessage()} onChangeText={pas => setPassword(pas)}></TextInput>
 
-      <TextInput autoCapitalize='none' style={styles.input} placeholder='Omiljena Boja' onFocus={()=>clearErrorMessage()} onChangeText={boja => setBoja(boja)}></TextInput>
-      <TextInput autoCapitalize='none' style={styles.input} placeholder='Omiljena Zivotinja' onFocus={()=>clearErrorMessage()} onChangeText={zivotinja => setZivotinja(zivotinja)}></TextInput>
+      <TextInput autoCapitalize='none' label='Omiljena Boja' mode='outlined'  style={styles.input} placeholder='Omiljena Boja' onFocus={()=>clearErrorMessage()} onChangeText={boja => setBoja(boja)}></TextInput>
+      <TextInput autoCapitalize='none' label='Omiljena Zivotinja' mode='outlined'  style={styles.input} placeholder='Omiljena Zivotinja' onFocus={()=>clearErrorMessage()} onChangeText={zivotinja => setZivotinja(zivotinja)}></TextInput>
+
+      <View style={{ flexDirection: "row", height:50 }}>
+        
+        <View width="40%" >
+        <RadioButton.Group onValueChange={value => setValue(value)} value={value} >
+
+        <RadioButton.Item  color='#46b4e7' label="Korisnik" value="Korisnik" />
+
+        </RadioButton.Group>
+        </View>
+
+        <View width="40%">
+        <RadioButton.Group onValueChange={value => setValue(value)}  value={value}>
+
+        <RadioButton.Item color='#46b4e7' label="Napredni korisnik" value="Napredni korisnik" />
+
+        </RadioButton.Group>
+        </View>
+        
+      </View>
+      
+      
 
       {state.errorMessage ? <Text style={styles.errorMes}>{state.errorMessage}</Text> : null}
       {state.dodan ? <Text style={styles.dodan}>{state.dodan}</Text> : null}
 
 
-      <TouchableOpacity style={styles.button} onPress={()=>dodavanje({email, password, ime, prezime, jmbg, omiljenaBoja, omiljenaZivotinja})}>
+      <TouchableOpacity style={styles.button} onPress={()=>dodavanje({email, password, ime, prezime, jmbg, omiljenaBoja, omiljenaZivotinja, value})}>
         <Text style={styles.text}>DODAJ</Text>
       </TouchableOpacity>
 
@@ -64,12 +88,9 @@ const styles = StyleSheet.create({
   },
   input: {
     borderColor:'gray',
-    borderWidth:0.5,
-    borderRadius:20,
-    padding: 5,
-    margin: 10,
-    fontSize: 18,
-    alignItems: 'center',
+    height: 45,
+    margin: 2,
+    fontSize: 12,
     justifyContent: 'center',
     width: '90%'
   },
@@ -77,11 +98,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#46b4e7",
     width: '60%',
-    height: 45,
-    padding: 11,
+    height: 40,
     borderRadius:20,
     margin: 5,
-    marginTop: 8,
+    marginTop:8,
     justifyContent: 'center',
   },
   text: {
