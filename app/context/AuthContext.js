@@ -176,13 +176,26 @@ const dodavanje =
 
 };
 
+const dodavanjePoslovnice = dispatch => async ({naziv, grad, adresa}) => {   //////////////////////////////////////////////DODAVANJE POSLOVNICE //////////////////////////////////////////////////////
+  try {
+
+    const response = await trackerApi.post('/dodajPos',  {naziv, grad, adresa});
+    dispatch({type:"dodaj poslovnicu", payload:response.data.token});
+
+  } catch(err) {
+    console.log("NE RADI DODAVANJE POSLOVNICE")
+        console.log(err)
+
+        dispatch({type: 'add_error', payload: 'Doslo je do greske'});
+  }
+}
+
 const izmjenaKorisnika = dispatch => async ({email, password, ime, prezime, jmbg, omiljenaBoja, omiljenaZivotinja, value}) => {
 
     try {
 
         const response = await trackerApi.post('/korisnikEdit', {email, password, ime, prezime, jmbg, omiljenaBoja, omiljenaZivotinja, value});
 
-        //dispatch({type: 'korisnikEdit', payload:response.data.token});
 
         console.log(email)
 
@@ -388,8 +401,44 @@ const listaProizvoda = dispatch => async ()=>{
 
 };
 
+const listaProizvodaPos = dispatch => async ()=>{    /////////////////RUTA ZA DODAVANJE PROIZVODA U POSLOVNICE//////////////////////////////
+
+  try {
+      
+      const response = await trackerApi.get('/proizvodi')
+
+
+      try{
+          console.log("1:"+ response.data.listaP[0].proizvod.id )
+          dispatch({type: 'list', payload: response.data.listaP  })
+  
+      }
+      catch(e){
+          
+          const response = await trackerApi.get('/proizvodi')
+
+          dispatch({type: 'list', payload: response.data.listaP  })
+          console.log("2: "+ response.data.listaP[0].proizvod.id )
+
+
+      }
+
+      RootNavigation.navigate('PoslovnicaDodajProizvod');
+   
+
+  } catch (err) {
+
+      console.log("NEEE RADI DODAJ")
+
+      dispatch({type: 'add_error', payload: 'Doslo je do greske'});
+
+  }
+
+};
+
+
 export const { Provider, Context } = createDataContext(
   authReducer,
-  { signin, signout, signup, dodavanje, listaKorisnika, korisnikPod, korisnikPod2, izmjenaKorisnika, izmjenaKorisnika2, obrisiKorisnika, listaProizvoda, clearErrorMessage, tryLocalSignin },
+  { signin, signout, signup, dodavanje, listaKorisnika, korisnikPod, korisnikPod2, izmjenaKorisnika, izmjenaKorisnika2, obrisiKorisnika, listaProizvoda, clearErrorMessage, tryLocalSignin, dodavanjePoslovnice, listaProizvodaPos },
   { token: null, errorMessage: "", dodan: "", list:null, edit:''}
 );
