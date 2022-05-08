@@ -113,16 +113,29 @@ router.post("/dodaj", async (req, res) => {
   }
 });
 
-router.post("/dodajPos", async (req,res) =>{                   //////////////////////////////////////////////////RUTA ZA DODAVANJE POSLOVNICE//////////////////////////////////////////////////
+router.post("/dodajPos", async (req,res) =>{
   const {naziv, grad, adresa} = req.body;
 
   try {
-    const posl = new Poslovnica({naziv,grad,adresa});
+    const posl = new Poslovnica({
+      naziv,
+      grad,
+      adresa
+    });
     await posl.save();
+    res.send({  naziv: posl.naziv });
   } catch(err) {
     res.status(422).send({ error: "greska" });
   }
 });
+
+router.get("/uvediPro/:naziv", async (req, res) => {           /////////////////////////////////////////////////////////////////RUTA ZA UVODJENJE PROIZVODA U POSLOVNICU//////////////////////////////////////////////////////////
+
+  const proizvod = await Proizvod.findOne({'naziv': req.params.naziv});
+
+  res.send({proizvod});
+});
+
 
 router.post("/signin", async (req, res) => {
   const { email, password } = req.body;

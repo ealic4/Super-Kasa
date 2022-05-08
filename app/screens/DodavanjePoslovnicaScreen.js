@@ -8,12 +8,12 @@ import { Context as AuthContext } from '../context/AuthContext'
 function DodavanjePoslovnicaScreen({navigation,route}){
 
 
-  const { poruka, naziv, kolicina, jedinica } = route?.params || {};
+  const { poruka, nazivPro, kolicina, jedinica } = route?.params || {};
   const {state, dodavanjePoslovnice, clearErrorMessage, listaProizvodaPos} = useContext(AuthContext);
 
-  const [naziv1, setNaziv] = useState('');
-  const [grad1, setGrad ] = useState('');
-  const [adresa1, setAdresa] = useState('');
+  const [naziv, setNaziv] = useState('');
+  const [grad, setGrad ] = useState('');
+  const [adresa, setAdresa] = useState('');
 
 
   useFocusEffect(
@@ -40,7 +40,7 @@ function DodavanjePoslovnicaScreen({navigation,route}){
       {state.dodan ? <Text style={styles.dodan}>{state.dodan}</Text> : null}
         
 
-      <TouchableOpacity style={styles.button} onPress={()=>dodavanjePoslovnice({naziv1,grad1,adresa1})}>
+      <TouchableOpacity style={styles.button} onPress={()=>dodavanjePoslovnice({naziv,grad,adresa})}>
         <Text style={styles.text}>DODAJ POSLOVNICU</Text>
       </TouchableOpacity>
 
@@ -49,7 +49,7 @@ function DodavanjePoslovnicaScreen({navigation,route}){
       </TouchableOpacity>
 
       <View style={styles.errorMes}>
-          <Text>{poruka} {naziv} {kolicina} {jedinica}</Text>
+          <Text>{poruka} {nazivPro} {kolicina} {jedinica}</Text>
       </View>
 
     </SafeAreaView>

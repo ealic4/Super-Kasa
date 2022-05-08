@@ -7,7 +7,7 @@ const { useState } = React;
 const UvodjenjeProizvodaUPoslovniceScreen = ({ navigation }) => {
 
     const [lista, setLista] = useState([]);
-    const {state, PosProDetail} = useContext(AuthContext);
+    const {state, uvediProizvod} = useContext(AuthContext);
 
 
     
@@ -50,12 +50,7 @@ const UvodjenjeProizvodaUPoslovniceScreen = ({ navigation }) => {
           style={styles.listaa}
           data={lista}
           renderItem={({ item }) => <TouchableOpacity onPress={() => { 
-              console.log("dodali ste "+JSON.stringify(item.proizvod))            
-              navigation.navigate("PoslovnicaDodaj",{
-                  poruka:"Dodano je:",
-                  naziv:item.proizvod.naziv+",",
-                  kolicina:item.proizvod.kolicina,
-                  jedinica:item.proizvod.jedinica})
+                  uvediProizvod(item.proizvod.naziv);
               }}>
                 <ItemRender proizvod={item.proizvod} />
             </TouchableOpacity> }
