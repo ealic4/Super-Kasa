@@ -29,6 +29,10 @@ function AdminSScreen({ navigation }){
         <Text style={styles.textPr2}>PREGLED POSLOVNICA</Text>
         </TouchableOpacity>
 
+        <TouchableOpacity style={styles.dodPosl} onPress={()=>navigation.navigate('PoslovnicaDodaj')}>
+        <Text style={styles.textDodPos}>REGISTRUJ NOVU POSLOVNICU</Text>
+        </TouchableOpacity>
+
         <TouchableOpacity style={styles.pregled} onPress={listaProiz}>
         <Text style={styles.textPr}>PREGLED PROIZVODA</Text>
         </TouchableOpacity>
@@ -63,6 +67,11 @@ const styles = StyleSheet.create({
   textPr2: {
     color: "#4a4b44",
     fontSize: 17.5,
+    textAlign: 'center',
+  },
+  textDodPos: {
+    color: "#4a4b44",
+    fontSize: 13,
     textAlign: 'center',
   },
   naslov: {
@@ -110,8 +119,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    bottom: "28%",
+    bottom: "38%",
   },
+  dodPosl: {
+    backgroundColor: "#46b4e7",
+    width: '60%',
+    height: 55,
+    padding: 14,
+    borderRadius:20,
+    margin: 10,
+    marginTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: "28%",
+  }
 });
 
 

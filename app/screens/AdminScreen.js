@@ -28,10 +28,6 @@ function AdminScreen({ navigation }){
         <Text style={styles.text}>DODAJ NOVOG KORISNIKA</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.dodPosl} onPress={()=>navigation.navigate('PoslovnicaDodaj')}>
-        <Text style={styles.text}>REGISTRUJ NOVU POSLOVNICU</Text>
-        </TouchableOpacity>
-
         <TouchableOpacity style={styles.button} onPress={signout}>
         <Text style={styles.text}>SIGN OUT</Text>
         </TouchableOpacity>

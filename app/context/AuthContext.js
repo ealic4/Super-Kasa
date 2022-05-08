@@ -27,6 +27,13 @@ const authReducer = (state, action) => {
           console.log("DODANO")
           return {...state, edit: action.payload};
 
+    case 'dodajPos':
+          console.log("DODANA POSLOVNICA");
+          return {errorMessage: "", dodan: "Poslovnica uspješno dodana!"}
+    
+    case 'dodajPro':
+          console.log("DODAN PROIZVOD");
+          return {errorMessage: "", dodan: "Proizvod uspješno dodan!"} 
     default:
       return state;
   }
@@ -176,17 +183,37 @@ const dodavanje =
 
 };
 
-const dodavanjePoslovnice = dispatch => async ({naziv, grad, adresa}) => {   //////////////////////////////////////////////DODAVANJE POSLOVNICE //////////////////////////////////////////////////////
+const dodavanjePoslovnice = (dispatch) => async ({naziv, grad, adresa}) => {  
   try {
-
+    
     const response = await trackerApi.post('/dodajPos',  {naziv, grad, adresa});
-    dispatch({type:"dodaj poslovnicu", payload:response.data.token});
+    console.log(response.naziv);
+    dispatch({type:"dodajPos", payload:response.naziv});
+    
 
   } catch(err) {
     console.log("NE RADI DODAVANJE POSLOVNICE")
         console.log(err)
-
         dispatch({type: 'add_error', payload: 'Doslo je do greske'});
+  }
+}
+
+const uvediProizvod = (dispatch) => async (naziv) => {          //////////////////////////////////////////////dodjeljivanje proizvoda //////////////////////////////////////////////////////
+  try {
+    const response = await trackerApi.get('/uvediPro/'+naziv);
+    try{
+      console.log( response.jedinica)
+      dispatch({type:"dodajPro", payload:response.naziv})
+
+    } catch(err) {
+      const response = await trackerApi.get('/uvediPro/'+naziv)
+      console.log( response.data.proizvod.jedinica)
+      dispatch({type: 'dodajPro', payload: response.data})
+    }
+  } catch(e) {
+    console.log("Ne radi uvođenje proizvoda!");
+    console.log(e);
+    dispatch({type: 'add_error', payload: 'Doslo je do greske'});
   }
 }
 
@@ -240,7 +267,7 @@ const listaKorisnika = dispatch => async ()=>{
 
     } catch (err) {
 
-        console.log("NEEE RADI DODAJ")
+        console.log("NEEE RADI listaKorisnika")
 
         dispatch({type: 'add_error', payload: 'Doslo je do greske'});
 
@@ -274,7 +301,7 @@ const korisnikPod = dispatch => async (email)=>{
     
     } catch (err) {
 
-        console.log("NEEE RADI DODAJ")
+        console.log("NEEE RADI korisnikPod")
 
         dispatch({type: 'add_error', payload: 'Doslo je do greske'});
     }
@@ -296,7 +323,7 @@ const korisnikPod = dispatch => async (email)=>{
 
     } catch (err) {
 
-      console.log("NEEE RADI DODAJ")
+      console.log("NEEE RADI obrisiKorisnika")
 
         
         dispatch({type: 'add_error', payload: 'Doslo je do greske'});
@@ -334,7 +361,7 @@ const korisnikPod2 = dispatch => async ()=>{
   
   } catch (err) {
 
-      console.log("NEEE RADI DODAJ")
+      console.log("NEEE RADI korisnikpod2")
 
       dispatch({type: 'add_error', payload: 'Doslo je do greske'});
   }
@@ -393,7 +420,7 @@ const listaProizvoda = dispatch => async ()=>{
 
   } catch (err) {
 
-      console.log("NEEE RADI DODAJ")
+      console.log("NE RADI listaproizvoda!")
 
       dispatch({type: 'add_error', payload: 'Doslo je do greske'});
 
@@ -429,7 +456,7 @@ const ListaPoslovnica = dispatch => async ()=>{
 
   } catch (err) {
 
-      console.log("NEEE RADI DODAJ")
+      console.log("NEEE RADI listaposlovnica!")
 
       dispatch({type: 'add_error', payload: 'Doslo je do greske'});
 
@@ -437,7 +464,7 @@ const ListaPoslovnica = dispatch => async ()=>{
 
 };
 
-const listaProizvodaPos = dispatch => async ()=>{    /////////////////RUTA ZA DODAVANJE PROIZVODA U POSLOVNICE//////////////////////////////
+const listaProizvodaPos = dispatch => async ()=>{   
 
   try {
       
@@ -464,7 +491,7 @@ const listaProizvodaPos = dispatch => async ()=>{    /////////////////RUTA ZA DO
 
   } catch (err) {
 
-      console.log("NEEE RADI DODAJ")
+      console.log("NEEE RADI listaProizvodaPos")
 
       dispatch({type: 'add_error', payload: 'Doslo je do greske'});
 
@@ -475,6 +502,22 @@ const listaProizvodaPos = dispatch => async ()=>{    /////////////////RUTA ZA DO
 
 export const { Provider, Context } = createDataContext(
   authReducer,
-  { signin, signout, signup, dodavanje, listaKorisnika, korisnikPod, korisnikPod2, izmjenaKorisnika, izmjenaKorisnika2, obrisiKorisnika, listaProizvoda, ListaPoslovnica, clearErrorMessage, tryLocalSignin, dodavanjePoslovnice, listaProizvodaPos },
+  { signin,
+    signout, 
+    signup, 
+    dodavanje, 
+    listaKorisnika, 
+    korisnikPod, 
+    korisnikPod2, 
+    izmjenaKorisnika, 
+    izmjenaKorisnika2, 
+    obrisiKorisnika, 
+    listaProizvoda, 
+    ListaPoslovnica, 
+    clearErrorMessage, 
+    tryLocalSignin, 
+    dodavanjePoslovnice, 
+    listaProizvodaPos,
+    uvediProizvod },
   { token: null, errorMessage: "", dodan: "", list:null, edit:''}
 );
