@@ -6,6 +6,7 @@ const User = mongoose.model("User");
 const Proizvod = require("../models/Proizvod.js");
 
 const Log = require("../models/Log.js");
+const Poslovnica = require("../models/Poslovnica.js");
 
 const router = express.Router();
 
@@ -108,6 +109,17 @@ router.post("/dodaj", async (req, res) => {
     const token = jwt.sign({ userId: user._id }, "MY_SECRET_KEY");
     res.send({ token, id: user._id, email: user.email });
   } catch (err) {
+    res.status(422).send({ error: "greska" });
+  }
+});
+
+router.post("/dodajPos", async (req,res) =>{                   //////////////////////////////////////////////////RUTA ZA DODAVANJE POSLOVNICE//////////////////////////////////////////////////
+  const {naziv, grad, adresa} = req.body;
+
+  try {
+    const posl = new Poslovnica({naziv,grad,adresa});
+    await posl.save();
+  } catch(err) {
     res.status(422).send({ error: "greska" });
   }
 });

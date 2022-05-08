@@ -28,6 +28,10 @@ function AdminScreen({ navigation }){
         <Text style={styles.text}>DODAJ NOVOG KORISNIKA</Text>
         </TouchableOpacity>
 
+        <TouchableOpacity style={styles.dodPosl} onPress={()=>navigation.navigate('PoslovnicaDodaj')}>
+        <Text style={styles.text}>REGISTRUJ NOVU POSLOVNICU</Text>
+        </TouchableOpacity>
+
         <TouchableOpacity style={styles.button} onPress={signout}>
         <Text style={styles.text}>SIGN OUT</Text>
         </TouchableOpacity>
@@ -47,7 +51,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#4a4b44",
-    fontSize: 22,
+    fontSize: 10,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -98,6 +102,19 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: "28%",
   },
+  dodPosl: {
+    backgroundColor: "#46b4e7",
+    width: '60%',
+    height: 55,
+    padding: 14,
+    borderRadius:20,
+    margin: 10,
+    marginTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: "38%",
+  }
 });
 
 
