@@ -6,12 +6,17 @@ function AdminSScreen({ navigation }){
 
   const {signout} = useContext(AuthContext);
 
-  const {state, listaProizvoda} = useContext(AuthContext);
+  const {state, listaProizvoda, ListaPoslovnica} = useContext(AuthContext);
 
 
-  const listaK = ()=>{
+  const listaProiz = ()=>{
 
     listaProizvoda()  
+  }
+
+  const listaPos = ()=>{
+
+    ListaPoslovnica()  
   }
 
   return (
@@ -20,8 +25,12 @@ function AdminSScreen({ navigation }){
 
         <Text style={styles.naslov}>ADMIN SKLADISTA</Text>
 
-        <TouchableOpacity style={styles.pregled} onPress={listaK}>
-        <Text style={styles.text}>PREGLED KORISNIKA</Text>
+        <TouchableOpacity style={styles.pregled2} onPress={listaPos}>
+        <Text style={styles.textPr2}>PREGLED POSLOVNICA</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.pregled} onPress={listaProiz}>
+        <Text style={styles.textPr}>PREGLED PROIZVODA</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button} onPress={signout}>
@@ -44,6 +53,16 @@ const styles = StyleSheet.create({
   text: {
     color: "#4a4b44",
     fontSize: 22,
+    textAlign: 'center',
+  },
+  textPr: {
+    color: "#4a4b44",
+    fontSize: 18,
+    textAlign: 'center',
+  },
+  textPr2: {
+    color: "#4a4b44",
+    fontSize: 17.5,
     textAlign: 'center',
   },
   naslov: {
@@ -79,6 +98,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     position: 'absolute',
     bottom: "18%",
+  },
+  pregled2: {
+    backgroundColor: "#46b4e7",
+    width: '60%',
+    height: 55,
+    padding: 14,
+    borderRadius:20,
+    margin: 10,
+    marginTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: "28%",
   },
 });
 
