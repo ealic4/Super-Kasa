@@ -290,4 +290,23 @@ router.get('/proizvodi', async (req,res)=>{
 
 });
 
+router.get('/poslovnice', async (req,res)=>{
+
+  const poslovnice = await Poslovnica.find();
+  
+  let rez=`{"listaPoslovnica" :[`;
+
+  for(i=0; i<poslovnice.length; i++){
+      rez+=`{"poslovnica" : {"id":`+`"`+i+`"`+`,"naziv":`+`"`+poslovnice[i].naziv+`"`+`,"grad":`+`"`+poslovnice[i].grad+`"`+`,"adresa":`+`"`+poslovnice[i].adresa+`"`+"}},";
+  }
+
+  rez = rez.slice(0, -1);
+  rez = rez.slice(0, -1);
+
+  rez+="}]}"
+
+  res.send(JSON.parse(rez));
+
+});
+
  module.exports=router;

@@ -401,6 +401,42 @@ const listaProizvoda = dispatch => async ()=>{
 
 };
 
+
+const ListaPoslovnica = dispatch => async ()=>{
+
+  try {
+      
+      const response = await trackerApi.get('/poslovnice')
+
+
+      try{
+          console.log("1:"+ response.data.listaPoslovnica[0].poslovnica.id )
+          dispatch({type: 'list', payload: response.data.listaPoslovnica  })
+  
+      }
+      catch(e){
+          
+          const response = await trackerApi.get('/poslovnice')
+
+          dispatch({type: 'list', payload: response.data.listaPoslovnica  })
+          console.log("2: "+ response.data.listaPoslovnica[0].poslovnica.id )
+
+
+      }
+
+      RootNavigation.navigate('ListaPoslovnica');
+   
+
+  } catch (err) {
+
+      console.log("NEEE RADI DODAJ")
+
+      dispatch({type: 'add_error', payload: 'Doslo je do greske'});
+
+  }
+
+};
+
 const listaProizvodaPos = dispatch => async ()=>{    /////////////////RUTA ZA DODAVANJE PROIZVODA U POSLOVNICE//////////////////////////////
 
   try {
@@ -439,6 +475,6 @@ const listaProizvodaPos = dispatch => async ()=>{    /////////////////RUTA ZA DO
 
 export const { Provider, Context } = createDataContext(
   authReducer,
-  { signin, signout, signup, dodavanje, listaKorisnika, korisnikPod, korisnikPod2, izmjenaKorisnika, izmjenaKorisnika2, obrisiKorisnika, listaProizvoda, clearErrorMessage, tryLocalSignin, dodavanjePoslovnice, listaProizvodaPos },
+  { signin, signout, signup, dodavanje, listaKorisnika, korisnikPod, korisnikPod2, izmjenaKorisnika, izmjenaKorisnika2, obrisiKorisnika, listaProizvoda, ListaPoslovnica, clearErrorMessage, tryLocalSignin, dodavanjePoslovnice, listaProizvodaPos },
   { token: null, errorMessage: "", dodan: "", list:null, edit:''}
 );
