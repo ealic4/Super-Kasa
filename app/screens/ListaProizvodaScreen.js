@@ -2,12 +2,13 @@ import React, { useContext} from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import {StyleSheet, Text, View, SafeAreaView, FlatList, Alert} from 'react-native';
 import { Context as AuthContext } from '../context/AuthContext'
+import { TouchableOpacity } from 'react-native-web';
 const { useState } = React;
 
 const ListaProizvodaScreen = ({ navigation }) => {
 
     const [lista, setLista] = useState([]);
-    const {state, korisnikPod} = useContext(AuthContext);
+    const {state, korisnikPod, proizvodPod} = useContext(AuthContext);
 
     useFocusEffect(
         React.useCallback(() => {
@@ -17,21 +18,24 @@ const ListaProizvodaScreen = ({ navigation }) => {
         }, [])
       );
       
+      const getProizvod = (name) => {
+        proizvodPod(name)
+      }
 
 
       const ItemRender = ({ proizvod }) => (
         <SafeAreaView style={styles.item}>
 
         <SafeAreaView style={{flex: 1}}>
-            <Text style={styles.text}> {proizvod.naziv}</Text>
+            <Text style={styles.text} onPress={()=>getProizvod(proizvod.naziv)}> {proizvod.naziv}</Text>
         </SafeAreaView>
 
         <SafeAreaView style={{flex: 1}}>
-            <Text style={styles.text2}>  {proizvod.kolicina}</Text>
+            <Text style={styles.text2} onPress={()=>getProizvod(proizvod.naziv)}>  {proizvod.kolicina}</Text>
         </SafeAreaView>
 
         <SafeAreaView style={{flex: 1, paddingRight:15}}>
-            <Text style={styles.text3}>{proizvod.jedinica}  </Text>
+            <Text style={styles.text3} onPress={()=>getProizvod(proizvod.naziv)}>{proizvod.jedinica}  </Text>
         </SafeAreaView>
 
         </SafeAreaView>

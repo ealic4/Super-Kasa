@@ -260,12 +260,15 @@ const izmjenaProizvoda = dispatch => async ({nazivS, naziv, kolicina, jedinica})
 
       console.log(nazivS)
 
+
+
       RootNavigation.navigate("AdminS");
 
   
   } catch(err) {
       console.log("NEEE RADI izmjenaProizvoda")
       console.log(err)
+
 
       dispatch({type: 'add_error', payload: 'Doslo je do greske'});
   }
@@ -580,5 +583,6 @@ export const { Provider, Context } = createDataContext(
     proizvodPod,
     izmjenaProizvoda,
     dodavanjeProizvodaSkladiste },
+
   { token: null, errorMessage: "", dodan: "", list:null, edit:''}
 );
