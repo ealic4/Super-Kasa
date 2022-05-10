@@ -230,13 +230,31 @@ const izmjenaKorisnika = dispatch => async ({email, password, ime, prezime, jmbg
 
     
     } catch(err) {
-        console.log("NEEE RADI IZMIJENI")
+        console.log("NEEE RADI izmjenaKorisnika")
         console.log(err)
 
         dispatch({type: 'add_error', payload: 'Doslo je do greske'});
     }
-    
+}
 
+const izmjenaProizvoda = dispatch => async ({nazivS, naziv, kolicina, jedinica}) => {
+
+  try {
+
+      const response = await trackerApi.post('/proizvodEdit', {nazivS, naziv, kolicina, jedinica});
+
+
+      console.log(nazivS)
+
+      RootNavigation.navigate("AdminS");
+
+  
+  } catch(err) {
+      console.log("NEEE RADI izmjenaProizvoda")
+      console.log(err)
+
+      dispatch({type: 'add_error', payload: 'Doslo je do greske'});
+  }
 }
 
 
@@ -306,6 +324,32 @@ const korisnikPod = dispatch => async (email)=>{
         dispatch({type: 'add_error', payload: 'Doslo je do greske'});
     }
   };
+
+  const proizvodPod = dispatch => async (naziv) => {  
+    try {
+      const response = await trackerApi.get('/proizvodPodaci/'+naziv)
+      try {
+        console.log(response.data.proizvod.kolicina);
+        dispatch({type: 'edit', payload: response.data  });
+      } catch(e) {
+        const response = await trackerApi.get('/proizvodPodaci/'+naziv)
+
+        dispatch({type: 'edit', payload: response.data  });
+        console.log("2: "+ response.data.proizvod.kolicina);
+
+      }
+
+      RootNavigation.navigate('ProizvodEdit');
+
+    } catch (err) {
+      console.log("NEEE RADI proizvodPod")
+
+        dispatch({type: 'add_error', payload: 'Doslo je do greske'});
+    }
+    
+    
+    console.log(naziv);
+  }
 
 
   const obrisiKorisnika = dispatch => async (email)=>{
@@ -518,6 +562,8 @@ export const { Provider, Context } = createDataContext(
     tryLocalSignin, 
     dodavanjePoslovnice, 
     listaProizvodaPos,
-    uvediProizvod },
+    uvediProizvod,
+    proizvodPod,
+    izmjenaProizvoda },
   { token: null, errorMessage: "", dodan: "", list:null, edit:''}
 );
