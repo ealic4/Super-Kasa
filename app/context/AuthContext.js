@@ -198,6 +198,20 @@ const dodavanjePoslovnice = (dispatch) => async ({naziv, grad, adresa}) => {
   }
 }
 
+const dodavanjeProizvodaSkladiste = (dispatch) => async ({naziv, kolicina, jedinica}) => {
+  try {
+    console.log(naziv)
+    const response = await trackerApi.post('/dodajProSkladiste',{naziv, kolicina, jedinica});
+    console.log(response.naziv);
+    dispatch({type:"dodajPro", payload:response.data});
+
+  } catch(err) {
+    console.log("NE RADI dodavanjeProizvodaSkladiste")
+        console.log(err)
+        dispatch({type: 'add_error', payload: 'Doslo je do greske'});
+  }
+}
+
 const uvediProizvod = (dispatch) => async (naziv) => {          //////////////////////////////////////////////dodjeljivanje proizvoda //////////////////////////////////////////////////////
   try {
     const response = await trackerApi.get('/uvediPro/'+naziv);
@@ -246,12 +260,15 @@ const izmjenaProizvoda = dispatch => async ({nazivS, naziv, kolicina, jedinica})
 
       console.log(nazivS)
 
+
+
       RootNavigation.navigate("AdminS");
 
   
   } catch(err) {
       console.log("NEEE RADI izmjenaProizvoda")
       console.log(err)
+
 
       dispatch({type: 'add_error', payload: 'Doslo je do greske'});
   }
@@ -564,6 +581,8 @@ export const { Provider, Context } = createDataContext(
     listaProizvodaPos,
     uvediProizvod,
     proizvodPod,
-    izmjenaProizvoda },
+    izmjenaProizvoda,
+    dodavanjeProizvodaSkladiste },
+
   { token: null, errorMessage: "", dodan: "", list:null, edit:''}
 );
