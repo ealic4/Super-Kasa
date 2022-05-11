@@ -1,16 +1,8 @@
 import React, { useContext } from "react";
 import { useFocusEffect } from "@react-navigation/native";
-import {
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  FlatList,
-  Alert,
-} from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, FlatList } from "react-native";
 import { Context as AuthContext } from "../context/AuthContext";
 import { ListItem, Icon } from "@rneui/base";
-import { TouchableOpacity } from "react-native-web";
 const { useState } = React;
 
 const ListaProizvodaScreen = ({ navigation }) => {
@@ -28,9 +20,9 @@ const ListaProizvodaScreen = ({ navigation }) => {
   };
 
   const ItemRender = ({ proizvod }) => (
-    <ListItem>
+    <ListItem bottomDivider containerStyle={{ margin: 3 }}>
       <ListItem.Content>
-        <ListItem.Title>
+        <ListItem.Title h3 h3Style={{ fontWeight: "bold" }}>
           <Text>{proizvod.naziv}</Text>
         </ListItem.Title>
         <ListItem.Subtitle>
@@ -44,7 +36,8 @@ const ListaProizvodaScreen = ({ navigation }) => {
       <Icon
         raised
         name="edit"
-        size={14}
+        size={20}
+        style={{ textAlign: "center" }}
         type="font-awesome"
         onPress={() => getProizvod(proizvod.naziv)}
       />
@@ -91,37 +84,18 @@ const ListaProizvodaScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
     marginTop: "10%",
-  },
-  text: {
-    flex: 1,
-    color: "#4a4b44",
-    fontSize: 22,
-    textAlign: "left",
-  },
-  text2: {
-    flex: 1,
-    color: "#4a4b44",
-    fontSize: 22,
-    textAlign: "center",
-  },
-  text3: {
-    flex: 1,
-    color: "#4a4b44",
-    fontSize: 22,
-    textAlign: "right",
   },
   listaa: {
     width: "90%",
   },
   item2: {
-    textAlign: "center",
     fontSize: 20,
     padding: 10,
-    alignItems: "center",
+    textAlign: "left",
+    fontWeight: "bold",
     marginVertical: 8,
     width: "90%",
   },
