@@ -25,16 +25,20 @@ function AdminSScreen({ navigation }){
 
         <Text style={styles.naslov}>ADMIN SKLADISTA</Text>
 
-        <TouchableOpacity style={styles.pregled2} onPress={listaPos}>
+        <TouchableOpacity style={styles.pregled_poslovnica} onPress={listaPos}>
         <Text style={styles.textPr2}>PREGLED POSLOVNICA</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.dodPosl} onPress={()=>navigation.navigate('PoslovnicaDodaj')}>
+        <TouchableOpacity style={styles.registruj_poslovnicu} onPress={()=>navigation.navigate('PoslovnicaDodaj')}>
         <Text style={styles.textDodPos}>REGISTRUJ NOVU POSLOVNICU</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.pregled} onPress={listaProiz}>
+        <TouchableOpacity style={styles.pregled_proizvoda} onPress={listaProiz}>
         <Text style={styles.textPr}>PREGLED PROIZVODA</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.proizvod_skladiste} onPress={()=>navigation.navigate('SkladisteDodajProizvod')}>
+        <Text style={styles.textDodPos}>DODAJ PROIZVOD U SKLADIŠTE</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button} onPress={signout}>
@@ -95,7 +99,33 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: "8%",
   },
-  pregled: {
+  pregled_proizvoda: {
+    backgroundColor: "#46b4e7",
+    width: '60%',
+    height: 55,
+    padding: 14,
+    borderRadius:20,
+    margin: 10,
+    marginTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: "28%",
+  },
+  pregled_poslovnica: {
+    backgroundColor: "#46b4e7",
+    width: '60%',
+    height: 55,
+    padding: 14,
+    borderRadius:20,
+    margin: 10,
+    marginTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: "48%",
+  },
+  proizvod_skladiste: {
     backgroundColor: "#46b4e7",
     width: '60%',
     height: 55,
@@ -108,7 +138,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: "18%",
   },
-  pregled2: {
+  registruj_poslovnicu: {
     backgroundColor: "#46b4e7",
     width: '60%',
     height: 55,
@@ -120,19 +150,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     position: 'absolute',
     bottom: "38%",
-  },
-  dodPosl: {
-    backgroundColor: "#46b4e7",
-    width: '60%',
-    height: 55,
-    padding: 14,
-    borderRadius:20,
-    margin: 10,
-    marginTop: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
-    bottom: "28%",
   }
 });
 

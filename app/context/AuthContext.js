@@ -198,6 +198,20 @@ const dodavanjePoslovnice = (dispatch) => async ({naziv, grad, adresa}) => {
   }
 }
 
+const dodavanjeProizvodaSkladiste = (dispatch) => async ({naziv, kolicina, jedinica}) => {
+  try {
+    console.log(naziv)
+    const response = await trackerApi.post('/dodajProSkladiste',{naziv, kolicina, jedinica});
+    console.log(response.naziv);
+    dispatch({type:"dodajPro", payload:response.data});
+
+  } catch(err) {
+    console.log("NE RADI dodavanjeProizvodaSkladiste")
+        console.log(err)
+        dispatch({type: 'add_error', payload: 'Doslo je do greske'});
+  }
+}
+
 const uvediProizvod = (dispatch) => async (naziv) => {          //////////////////////////////////////////////dodjeljivanje proizvoda //////////////////////////////////////////////////////
   try {
     const response = await trackerApi.get('/uvediPro/'+naziv);
@@ -230,13 +244,31 @@ const izmjenaKorisnika = dispatch => async ({email, password, ime, prezime, jmbg
 
     
     } catch(err) {
-        console.log("NEEE RADI IZMIJENI")
+        console.log("NEEE RADI izmjenaKorisnika")
         console.log(err)
 
         dispatch({type: 'add_error', payload: 'Doslo je do greske'});
     }
-    
+}
 
+const izmjenaProizvoda = dispatch => async ({nazivS, naziv, kolicina, jedinica}) => {
+
+  try {
+
+      const response = await trackerApi.post('/proizvodEdit', {nazivS, naziv, kolicina, jedinica});
+
+
+      console.log(nazivS)
+
+      RootNavigation.navigate("AdminS");
+
+  
+  } catch(err) {
+      console.log("NEEE RADI izmjenaProizvoda")
+      console.log(err)
+
+      dispatch({type: 'add_error', payload: 'Doslo je do greske'});
+  }
 }
 
 
@@ -307,30 +339,57 @@ const korisnikPod = dispatch => async (email)=>{
     }
   };
 
-
-  const obrisiKorisnika = dispatch => async (email)=>{
-
+  const proizvodPod = dispatch => async (naziv) => {  
     try {
+      const response = await trackerApi.get('/proizvodPodaci/'+naziv)
+      try {
+        console.log(response.data.proizvod.kolicina);
+        dispatch({type: 'edit', payload: response.data  });
+      } catch(e) {
+        const response = await trackerApi.get('/proizvodPodaci/'+naziv)
 
-      console.log("email: "+email)
-        
-        const response = await trackerApi.delete('/izbrisi/'+ email );
+        dispatch({type: 'edit', payload: response.data  });
+        console.log("2: "+ response.data.proizvod.kolicina);
 
-        RootNavigation.reset('Admin');
+      }
 
-        console.log("RADI DODAJ")
-
+      RootNavigation.navigate('ProizvodEdit');
 
     } catch (err) {
+      console.log("NEEE RADI proizvodPod")
 
-      console.log("NEEE RADI obrisiKorisnika")
-
-        
         dispatch({type: 'add_error', payload: 'Doslo je do greske'});
+    }
+    
+    
+    console.log(naziv);
+  }
 
+
+  const obrisiKorisnika = dispatch => async (email)=>{
+    try {
+      console.log("email: "+email)    
+        const response = await trackerApi.delete('/izbrisi/'+ email );
+        RootNavigation.reset('Admin');
+        console.log("RADI DODAJ")
+    } catch (err) {
+      console.log("NEEE RADI obrisiKorisnika")       
+        dispatch({type: 'add_error', payload: 'Doslo je do greske'});
     }
 
 };
+
+ const obrisiProizvod = dispatch => async (naziv) => {
+   try {
+    console.log("proizvod: "+naziv)
+    const response = await trackerApi.delete('/izbrisiPro/'+naziv);
+    RootNavigation.reset('AdminS');
+    console.log("proizvod "+naziv+" izbrisan");
+   } catch (err) {
+    console.log("NEEE RADI obrisiProizvod")     
+    dispatch({type: 'add_error', payload: 'Doslo je do greske'});
+   }
+ }
 
 const korisnikPod2 = dispatch => async ()=>{
 
@@ -518,6 +577,10 @@ export const { Provider, Context } = createDataContext(
     tryLocalSignin, 
     dodavanjePoslovnice, 
     listaProizvodaPos,
-    uvediProizvod },
+    uvediProizvod,
+    proizvodPod,
+    izmjenaProizvoda,
+    dodavanjeProizvodaSkladiste,
+    obrisiProizvod },
   { token: null, errorMessage: "", dodan: "", list:null, edit:''}
 );

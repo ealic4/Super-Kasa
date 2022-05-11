@@ -129,6 +129,22 @@ router.post("/dodajPos", async (req,res) =>{
   }
 });
 
+router.post("/dodajProSkladiste", async (req, res) => { ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  const {naziv, kolicina, jedinica} = req.body;
+  try {
+    const proizvod = new Proizvod({
+      naziv,
+      kolicina,
+      jedinica
+    });
+    await proizvod.save();
+    console.log("proizvod dodan u skladiste");
+    res.send({proizvod});
+  } catch(err) {
+    res.status(422).send({ error: "greska" });
+  }
+});
+
 router.get("/uvediPro/:naziv", async (req, res) => {           /////////////////////////////////////////////////////////////////RUTA ZA UVODJENJE PROIZVODA U POSLOVNICU//////////////////////////////////////////////////////////
 
   const proizvod = await Proizvod.findOne({'naziv': req.params.naziv});
@@ -212,6 +228,27 @@ router.post("/signin", async (req, res) => {
     
  })
 
+ router.post("/proizvodEdit", async (req,res) => {
+   const {nazivS, naziv, kolicina, jedinica}=req.body;
+   try{
+     const izmjena = new Proizvod({naziv,kolicina,jedinica});
+     await Proizvod.updateOne( {
+       naziv:nazivS
+     },
+     {
+       $set: {
+         naziv:izmjena.naziv,
+         kolicina:izmjena.kolicina,
+         jedinica:izmjena.jedinica
+       }
+     });
+     res.send("radi");
+
+   } catch(err) {
+      res.status(422).send({error:"greska"});
+   }
+ })
+
 
  router.get('/korisnici', async (req,res)=>{
 
@@ -241,6 +278,13 @@ router.post("/signin", async (req, res) => {
   
 });
 
+
+ router.get("/proizvodPodaci/:naziv", async (req, res) => {
+
+  const proizvod = await Proizvod.findOne({'naziv':req.params.naziv});
+  res.send({proizvod})
+ })
+
 router.delete("/izbrisi/:email", async (req, res) => {
 
   const user = await User.findOne(  { 'email': req.params.email });
@@ -266,6 +310,26 @@ router.delete("/izbrisi/:email", async (req, res) => {
     res.send("Ne postoji korisnik");
 
 });
+
+ router.delete("/izbrisiPro/:naziv", async (req, res) => {
+  console.log(req.params.naziv);
+  const proizvod = await Proizvod.findOne({"naziv":req.params.naziv});
+
+  if(proizvod) {
+    Proizvod.deleteOne({
+      naziv:req.params.naziv,
+    }, function (err, proizvod) {
+      if(err)
+      res.send("Ne postoji proizvod");
+
+      console.log('User successfully removed!');
+      res.send('proizvod Izbrisan');
+    })
+  }
+  else
+    res.send("proizvod ne postoji");
+
+ });
 
 router.post("/dodajProizvod", async (req, res) => {
 
