@@ -212,6 +212,8 @@ const dodavanjeProizvodaSkladiste = (dispatch) => async ({naziv, kolicina, jedin
 }
 
 
+
+
 const uvediProizvod = (dispatch) => async (naziv) => {
   //////////////////////////////////////////////dodjeljivanje proizvoda //////////////////////////////////////////////////////
   try {
@@ -266,6 +268,8 @@ const izmjenaKorisnika =
     }
   };
 
+
+
 const izmjenaProizvoda =
   (dispatch) =>
   async ({ nazivS, naziv, kolicina, jedinica }) => {
@@ -285,6 +289,22 @@ const izmjenaProizvoda =
       dispatch({ type: "add_error", payload: "Doslo je do greske" });
     }
   };
+
+
+};
+
+ const obrisiProizvod = dispatch => async (naziv) => {
+   try {
+    console.log("proizvod: "+naziv)
+    const response = await trackerApi.delete('/izbrisiPro/'+naziv);
+    RootNavigation.reset('AdminS');
+    console.log("proizvod "+naziv+" izbrisan");
+   } catch (err) {
+    console.log("NEEE RADI obrisiProizvod")     
+    dispatch({type: 'add_error', payload: 'Doslo je do greske'});
+   }
+ }
+
 
 const listaKorisnika = (dispatch) => async () => {
   try {
@@ -529,6 +549,7 @@ export const { Provider, Context } = createDataContext(
     uvediProizvod,
     proizvodPod,
     izmjenaProizvoda,
+    obrisiProizvod,
     obrisiPoslovnicu,
     dodavanjeProizvodaSkladiste 
   },

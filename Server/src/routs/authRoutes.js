@@ -145,6 +145,22 @@ router.post("/dodajProSkladiste", async (req, res) => { ////////////////////////
   }
 });
 
+router.post("/dodajProSkladiste", async (req, res) => { ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  const {naziv, kolicina, jedinica} = req.body;
+  try {
+    const proizvod = new Proizvod({
+      naziv,
+      kolicina,
+      jedinica
+    });
+    await proizvod.save();
+    console.log("proizvod dodan u skladiste");
+    res.send({proizvod});
+  } catch(err) {
+    res.status(422).send({ error: "greska" });
+  }
+});
+
 router.get("/uvediPro/:naziv", async (req, res) => {           /////////////////////////////////////////////////////////////////RUTA ZA UVODJENJE PROIZVODA U POSLOVNICU//////////////////////////////////////////////////////////
 
   const proizvod = await Proizvod.findOne({ naziv: req.params.naziv });
@@ -186,84 +202,106 @@ router.post("/signin", async (req, res) => {
   }
 });
 
-router.post("/korisnikEdit", async (req, res) => {
-  const {
-    email,
-    password,
-    ime,
-    prezime,
-    jmbg,
-    omiljenaBoja,
-    omiljenaZivotinja,
-    value,
-  } = req.body;
 
-  try {
-    var tip = value;
-    console.log(tip);
-    const izmjena = new User({
-      email,
-      password,
-      ime,
-      prezime,
-      jmbg,
-      omiljenaBoja,
-      omiljenaZivotinja,
-      tip,
-    });
-    await User.updateOne(
-      {
-        jmbg: izmjena.jmbg,
-      },
-      {
-        $set: {
-          email: izmjena.email,
-          password: izmjena.password,
-          ime: izmjena.ime,
-          prezime: izmjena.prezime,
-          omiljenaBoja: izmjena.omiljenaBoja,
-          omiljenaZivotinja: izmjena.omiljenaZivotinja,
-          tip: izmjena.tip,
-        },
-      }
-    );
-    const log = new Log({
-      korisnikId: izmjena._id,
-      korisnikEmail: izmjena.email,
-      tipKorisnika: "Korisnik",
-      vrijeme: new Date().toLocaleString("en-GB"),
-      opisAkcije: `Korisnik sa emailom '${izmjena.email}' je promijenio svoje podatke`,
-    });
-    const user = await User.findOne({ jmbg });
-    const token = jwt.sign({ userId: user._id }, "MY_SECRET_KEY");
-    await log.save();
-    res.send({ token });
-  } catch (err) {
-    res.status(422).send({ error: "greska" });
-  }
+
+
+ router.post("/korisnikEdit", async (req,res) => { 
+    const {email, password, ime, prezime, jmbg, omiljenaBoja, omiljenaZivotinja, value} = req.body;
+
+    try {
+        var tip=value
+        console.log(tip)
+        const izmjena = new User({email, password, ime, prezime, jmbg, omiljenaBoja, omiljenaZivotinja, tip});
+        await User.updateOne(
+            {
+                jmbg:izmjena.jmbg
+            },
+            {
+                $set: {
+                    email:izmjena.email,
+                    password:izmjena.password,
+                    ime:izmjena.ime,
+                    prezime:izmjena.prezime,
+                    omiljenaBoja:izmjena.omiljenaBoja,
+                    omiljenaZivotinja:izmjena.omiljenaZivotinja,
+                    tip:izmjena.tip
+                }
+            });
+            const log = new Log({
+              korisnikId: izmjena._id,
+              korisnikEmail: izmjena.email,
+              tipKorisnika: "Korisnik",
+              vrijeme: new Date().toLocaleString("en-GB"),
+              opisAkcije: `Korisnik sa emailom '${izmjena.email}' je promijenio svoje podatke`,
+            });
+        const user= await User.findOne({jmbg});
+        const token = jwt.sign({userId: user._id}, 'MY_SECRET_KEY');
+        await log.save();
+        res.send({token});
+
+    } catch(err) {
+        res.status(422).send({error:"greska"});
+    }
+    
+ })
+
+ router.post("/proizvodEdit", async (req,res) => {
+   const {nazivS, naziv, kolicina, jedinica}=req.body;
+   try{
+     const izmjena = new Proizvod({naziv,kolicina,jedinica});
+     await Proizvod.updateOne( {
+       naziv:nazivS
+     },
+     {
+       $set: {
+         naziv:izmjena.naziv,
+         kolicina:izmjena.kolicina,
+         jedinica:izmjena.jedinica
+       }
+     });
+     res.send("radi");
+
+   } catch(err) {
+      res.status(422).send({error:"greska"});
+   }
+ })
+
+
+ router.get('/korisnici', async (req,res)=>{
+
+    const user = await User.find();
+    
+    let rez=`{"lista" : [{`;
+
+    for(i=1; i<user.length; i++){
+        rez+=`"id":`+`"`+i+`"`+`,"email":`+`"`+user[i].email+`"`+"},{";
+    }
+
+    rez = rez.slice(0, -1);
+    rez = rez.slice(0, -1);
+
+    rez+="]}"
+
+    res.send(JSON.parse(rez));
+ 
+ });
+ 
+ router.get("/korisnikPodaci/:email", async (req, res) => {
+
+    const user = await User.findOne(  { 'email': req.params.email });
+
+    res.send({user});
+
+  
 });
 
-router.post("/proizvodEdit", async (req, res) => {
-  const { nazivS, naziv, kolicina, jedinica } = req.body;
-  try {
-    const izmjena = new Proizvod({ naziv, kolicina, jedinica });
-    await Proizvod.updateOne(
-      {
-        naziv: nazivS,
-      },
-      {
-        $set: {
-          naziv: izmjena.naziv,
-          kolicina: izmjena.kolicina,
-          jedinica: izmjena.jedinica,
-        },
-      }
-    );
-    res.send("radi");
-  } catch (err) {
-    res.status(422).send({ error: "greska" });
-  }
-});
+
+ router.get("/proizvodPodaci/:naziv", async (req, res) => {
+
+  const proizvod = await Proizvod.findOne({'naziv':req.params.naziv});
+  res.send({proizvod})
+ })
+
 
 router.get("/korisnici", async (req, res) => {
   const user = await User.find();
@@ -294,6 +332,27 @@ router.get("/proizvodPodaci/:naziv", async (req, res) => {
   res.send({ proizvod });
 });
 
+
+ router.delete("/izbrisiPro/:naziv", async (req, res) => {
+  console.log(req.params.naziv);
+  const proizvod = await Proizvod.findOne({"naziv":req.params.naziv});
+
+  if(proizvod) {
+    Proizvod.deleteOne({
+      naziv:req.params.naziv,
+    }, function (err, proizvod) {
+      if(err)
+      res.send("Ne postoji proizvod");
+
+      console.log('User successfully removed!');
+      res.send('proizvod Izbrisan');
+    })
+  }
+  else
+    res.send("proizvod ne postoji");
+
+ });
+
 router.delete("/izbrisi/:email", async (req, res) => {
   const user = await User.findOne({ email: req.params.email });
 
@@ -313,6 +372,7 @@ router.delete("/izbrisi/:email", async (req, res) => {
     );
   } else res.send("Ne postoji korisnik");
 });
+
 
 router.post("/dodajProizvod", async (req, res) => {
   const { naziv, kolicina, jedinica } = req.body;

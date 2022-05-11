@@ -52,7 +52,9 @@ function ProizvodEditScreen({ navigation }){
 
         <View width="40%">
 
-        <TouchableOpacity style={styles.button}>
+
+        <TouchableOpacity style={styles.button} onPress={()=> obrisiProizvod(nazivS)}>
+
           <Text style={styles.text}>OBRISI</Text>
         </TouchableOpacity>
 
