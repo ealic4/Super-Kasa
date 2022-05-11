@@ -129,8 +129,23 @@ router.post("/dodajPos", async (req, res) => {
   }
 });
 
-router.get("/uvediPro/:naziv", async (req, res) => {
-  /////////////////////////////////////////////////////////////////RUTA ZA UVODJENJE PROIZVODA U POSLOVNICU//////////////////////////////////////////////////////////
+router.post("/dodajProSkladiste", async (req, res) => { ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  const {naziv, kolicina, jedinica} = req.body;
+  try {
+    const proizvod = new Proizvod({
+      naziv,
+      kolicina,
+      jedinica
+    });
+    await proizvod.save();
+    console.log("proizvod dodan u skladiste");
+    res.send({proizvod});
+  } catch(err) {
+    res.status(422).send({ error: "greska" });
+  }
+});
+
+router.get("/uvediPro/:naziv", async (req, res) => {           /////////////////////////////////////////////////////////////////RUTA ZA UVODJENJE PROIZVODA U POSLOVNICU//////////////////////////////////////////////////////////
 
   const proizvod = await Proizvod.findOne({ naziv: req.params.naziv });
 

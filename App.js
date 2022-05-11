@@ -16,7 +16,9 @@ import DodavanjePoslovnicaScreen from './app/screens/DodavanjePoslovnicaScreen';
 import UvodjenjeProizvodaUPoslovniceScreen from './app/screens/UvodjenjeProizvodaUPoslovniceScreen';
 import ProizvodEditScreen from './app/screens/ProizvodEditScreen';
 import ListaPoslovnicaScreen from './app/screens/ListaPoslovnicaScreen'
+import DodajProizvodSkladisteScreen from './app/screens/DodajProizvodSkladisteScreen';
 import {Provider as AuthProvider} from './app/context/AuthContext';
+
 import { navigationRef } from './app/RootNavigation';
 
 
@@ -49,6 +51,7 @@ function App() {
         <Stack.Screen name="ListaPoslovnica" component={ListaPoslovnicaScreen} />
         <Stack.Screen name="ProizvodEdit" component={ProizvodEditScreen} />
 
+        <Stack.Screen name="SkladisteDodajProizvod" component={DodajProizvodSkladisteScreen} />
 
 
 
