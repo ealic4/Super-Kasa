@@ -291,7 +291,6 @@ const izmjenaProizvoda =
   };
 
 
-};
 
  const obrisiProizvod = dispatch => async (naziv) => {
    try {
