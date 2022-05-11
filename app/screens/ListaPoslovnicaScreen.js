@@ -35,13 +35,6 @@ const ListaPoslovnicaScreen = ({ navigation }) => {
     );
     setDialog({ visible: false, idPoslovnice: null });
     setLista(listNewState);
-    setToastVisible({
-      visible: true,
-      message: `Poslovnica ${dialogCopy.imePoslovnice} obrisana`,
-    });
-    setTimeout(() => {
-      setToastVisible({ visible: false, message: null });
-    }, 1500);
   };
 
   const ItemRender = ({ poslovnica }) => (
@@ -68,7 +61,6 @@ const ListaPoslovnicaScreen = ({ navigation }) => {
           setDialog({
             visible: true,
             idPoslovnice: poslovnica.id,
-            imePoslovnice: poslovnica.naziv,
           })
         }
       />
@@ -76,69 +68,54 @@ const ListaPoslovnicaScreen = ({ navigation }) => {
   );
 
   return (
-    <RootSiblingParent>
-      <Provider>
-        <SafeAreaView style={styles.container}>
-          <RNEText
-            h1
-            h1Style={{ fontWeight: "bold" }}
-            style={{ textAlign: "left" }}
-          >
-            <Icon name="store" size={45} style={{ marginRight: 5 }} />
-            Poslovnice
-          </RNEText>
-          <FlatList
-            style={styles.listaa}
-            data={lista}
-            renderItem={({ item }) => (
-              <ItemRender poslovnica={item.poslovnica} />
-            )}
-            keyExtractor={(item) => item.poslovnica.id}
-          />
-          <FAB
-            style={styles.fab}
-            large
-            icon="plus"
-            onPress={() =>
-              setToastVisible({ visible: true, message: "Kao radi" })
-            }
-          />
-          <Portal>
-            <Dialog visible={dialog.visible}>
-              <Dialog.Title>Izbriši poslovnicu</Dialog.Title>
-              <Dialog.Content>
-                <Text style={{ color: "#fff" }}>
-                  Jeste li sigurni da želite izbrisati poslovnicu?
-                </Text>
-              </Dialog.Content>
-              <Dialog.Actions>
-                <IconButton
-                  icon="close"
-                  onPress={() =>
-                    setDialog({ visible: false, idPoslovnice: null })
-                  }
-                  style={{ margin: 10 }}
-                />
-                <IconButton
-                  icon="check"
-                  onPress={() => handleDelete()}
-                  style={{ margin: 10 }}
-                />
-              </Dialog.Actions>
-            </Dialog>
-          </Portal>
-          <Toast
-            visible={toast.visible}
-            position={Toast.positions.BOTTOM}
-            duration={Toast.durations.SHORT}
-            opacity={0.4}
-            hideOnPress={true}
-          >
-            {toast.message}
-          </Toast>
-        </SafeAreaView>
-      </Provider>
-    </RootSiblingParent>
+    <Provider>
+      <SafeAreaView style={styles.container}>
+        <RNEText
+          h1
+          h1Style={{ fontWeight: "bold" }}
+          style={{ textAlign: "left" }}
+        >
+          <Icon name="store" size={45} style={{ marginRight: 5 }} />
+          Poslovnice
+        </RNEText>
+        <FlatList
+          style={styles.listaa}
+          data={lista}
+          renderItem={({ item }) => <ItemRender poslovnica={item.poslovnica} />}
+          keyExtractor={(item) => item.poslovnica.id}
+        />
+        <FAB
+          style={styles.fab}
+          large
+          icon="plus"
+          onPress={() => console.log("Dodaj")}
+        />
+        <Portal>
+          <Dialog visible={dialog.visible}>
+            <Dialog.Title>Izbriši poslovnicu</Dialog.Title>
+            <Dialog.Content>
+              <Text style={{ color: "#fff" }}>
+                Jeste li sigurni da želite izbrisati poslovnicu?
+              </Text>
+            </Dialog.Content>
+            <Dialog.Actions>
+              <IconButton
+                icon="close"
+                onPress={() =>
+                  setDialog({ visible: false, idPoslovnice: null })
+                }
+                style={{ margin: 10 }}
+              />
+              <IconButton
+                icon="check"
+                onPress={() => handleDelete()}
+                style={{ margin: 10 }}
+              />
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>
+      </SafeAreaView>
+    </Provider>
   );
 };
 
