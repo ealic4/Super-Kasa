@@ -4,8 +4,7 @@ import { StyleSheet, Text, SafeAreaView, FlatList } from "react-native";
 import { Context as AuthContext } from "../context/AuthContext";
 import { ListItem, Icon, Text as RNEText } from "@rneui/base";
 import { Provider, Dialog, FAB, IconButton, Portal } from "react-native-paper";
-import { RootSiblingParent } from "react-native-root-siblings";
-import Toast from "react-native-root-toast";
+
 const { useState } = React;
 
 const ListaPoslovnicaScreen = ({ navigation }) => {
@@ -14,10 +13,6 @@ const ListaPoslovnicaScreen = ({ navigation }) => {
     visible: false,
     idPoslovnice: null,
     imePoslovnice: null,
-  });
-  const [toast, setToastVisible] = useState({
-    visible: false,
-    message: null,
   });
   const { state, obrisiPoslovnicu } = useContext(AuthContext);
 
@@ -88,7 +83,7 @@ const ListaPoslovnicaScreen = ({ navigation }) => {
           style={styles.fab}
           large
           icon="plus"
-          onPress={() => console.log("Dodaj")}
+          onPress={() => navigation.navigate("PoslovnicaDodaj")}
         />
         <Portal>
           <Dialog visible={dialog.visible}>
