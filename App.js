@@ -56,7 +56,6 @@ function App() {
 
 
 
-
       </Stack.Navigator>
     </NavigationContainer>
   );
