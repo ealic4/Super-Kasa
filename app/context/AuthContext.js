@@ -591,7 +591,7 @@ const dodavanjeNarudzbe = (dispatch) => async ({naziv, poslovnica}) => {
     const response = await trackerApi.post('/dodajNarudzbu',  {naziv, idKorisnik, poslovnica});
     //console.log(response.naziv);
     //dispatch({type:"dodajPos", payload:response.naziv});
-    
+    RootNavigation.navigate("Korisnik");
 
   } catch(err) {
     console.log("NE RADI DODAVANJE NARUDZBE")
