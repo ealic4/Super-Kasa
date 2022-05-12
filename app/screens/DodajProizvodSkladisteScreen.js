@@ -20,6 +20,7 @@ function DodajProizvodSkladisteScreen({ navigation, route }) {
   const [naziv, setNaziv] = useState("");
   const [kolicina, setKolicina] = useState("");
   const [jedinica, setJedinica] = useState("");
+  const [stanje, setStanje] = useState('poslan');
 
   useFocusEffect(
     React.useCallback(() => {
@@ -65,7 +66,7 @@ function DodajProizvodSkladisteScreen({ navigation, route }) {
       <TouchableOpacity
         style={styles.button}
         onPress={() =>
-          dodavanjeProizvodaSkladiste({ naziv, kolicina, jedinica })
+          dodavanjeProizvodaSkladiste({ naziv, kolicina, jedinica, stanje })
         }
       >
         <Text style={styles.text}>DODAJ PROIZVOD</Text>

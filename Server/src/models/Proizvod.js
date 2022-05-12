@@ -13,6 +13,11 @@ const proizvodSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  stanje: {
+    type: String,
+    required: true,
+    default: 'poslan'
+  }
 });
 
 

@@ -7,7 +7,7 @@ const { useState } = React;
 
 const ListaProizvodaScreen = ({ navigation }) => {
   const [lista, setLista] = useState([]);
-  const { state, korisnikPod, proizvodPod } = useContext(AuthContext);
+  const { state, proizvodPod } = useContext(AuthContext);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -30,6 +30,8 @@ const ListaProizvodaScreen = ({ navigation }) => {
             Kolicina: {proizvod.kolicina}
             {"\n"}
             Jedinica: {proizvod.jedinica}
+            {"\n"}
+            Stanje: {proizvod.stanje}
           </Text>
         </ListItem.Subtitle>
       </ListItem.Content>

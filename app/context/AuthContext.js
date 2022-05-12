@@ -201,15 +201,16 @@ const dodavanjePoslovnice =
 
 const dodavanjeProizvodaSkladiste =
   (dispatch) =>
-  async ({ naziv, kolicina, jedinica }) => {
+  async ({ naziv, kolicina, jedinica, stanje }) => {
     try {
-      console.log(naziv);
+      console.log("stanje "+stanje);
       const response = await trackerApi.post("/dodajProSkladiste", {
         naziv,
         kolicina,
         jedinica,
+        stanje
       });
-      console.log(response.naziv);
+      console.log(response.data.proizvod.naziv);
       dispatch({ type: "dodajPro", payload: response.data });
     } catch (err) {
       console.log("NE RADI dodavanjeProizvodaSkladiste");
@@ -219,7 +220,6 @@ const dodavanjeProizvodaSkladiste =
   };
 
 const uvediProizvod = (dispatch) => async (naziv) => {
-  //////////////////////////////////////////////dodjeljivanje proizvoda //////////////////////////////////////////////////////
   try {
     const response = await trackerApi.get("/uvediPro/" + naziv);
     try {
@@ -291,6 +291,19 @@ const izmjenaProizvoda =
       dispatch({ type: "add_error", payload: "Doslo je do greske" });
     }
   };
+
+const preuzimanjeProizvoda = (dispatch) => async (nazivS) => {  ///////////vraca error 404///////////
+  try{
+    console.log("proizvod: "+ nazivS+ " se preuzima");
+    const response = await trackerApi.post("/preuzimanjePro/"+nazivS);
+  } catch(err) {
+    console.log("NEEE RADI preuzimanjeProizvoda");
+    console.log(err);
+    dispatch({ type: "add_error", payload: "Doslo je do greske" });
+  }
+
+}
+
 
 const obrisiProizvod = (dispatch) => async (naziv) => {
   try {
@@ -551,6 +564,7 @@ export const { Provider, Context } = createDataContext(
     obrisiProizvod,
     obrisiPoslovnicu,
     dodavanjeProizvodaSkladiste,
+    preuzimanjeProizvoda,
   },
 
   { token: null, errorMessage: "", dodan: "", list: null, edit: "" }

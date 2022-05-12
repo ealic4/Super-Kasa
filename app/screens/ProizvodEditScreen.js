@@ -6,7 +6,7 @@ import { Context as AuthContext } from '../context/AuthContext'
 
 function ProizvodEditScreen({ navigation }){
 
-  const {state, izmjenaProizvoda, obrisiProizvod, clearErrorMessage} = useContext(AuthContext);
+  const {state, izmjenaProizvoda, obrisiProizvod, preuzimanjeProizvoda, clearErrorMessage} = useContext(AuthContext);
 
   const [nazivS, setSNaziv] = useState('');
   const [kolicinaS, setSKolicina ] = useState('');
@@ -15,6 +15,7 @@ function ProizvodEditScreen({ navigation }){
   const [naziv, setNaziv] = useState('');
   const [kolicina, setKolicina ] = useState('');
   const [jedinica, setJedinica] = useState(''); 
+  const [stanje, setStanje] = useState("poslan");
 
 
   useFocusEffect(
@@ -43,6 +44,10 @@ function ProizvodEditScreen({ navigation }){
 
       <View style={{ flexDirection: "row" }}>
         <View width="40%">
+
+        <TouchableOpacity style={styles.buttonPrimi} onPress={()=>preuzimanjeProizvoda(nazivS)}>
+          <Text style={styles.text}>Primljeno</Text>
+        </TouchableOpacity> 
 
         <TouchableOpacity style={styles.button} onPress={()=> izmjenaProizvoda({nazivS,naziv,kolicina,jedinica})}>
           <Text style={styles.text}>IZMIJENI</Text>
@@ -104,6 +109,16 @@ const styles = StyleSheet.create({
     padding: 11,
     borderRadius:20,
     fontSize: 5,
+    marginTop: 8,
+    justifyContent: 'center',
+  },
+  buttonPrimi: {
+    alignItems: "center",
+    backgroundColor: "green",
+    width: '90%',
+    height: 45,
+    padding: 11,
+    borderRadius:20,
     marginTop: 8,
     justifyContent: 'center',
   },
