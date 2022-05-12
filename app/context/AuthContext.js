@@ -520,7 +520,22 @@ const obrisiPoslovnicu = (dispatch) => async (poslovnicaID) => {
   try {
     const response = await trackerApi.delete("/poslovnice/" + poslovnicaID);
   } catch (err) {
-    console.log("NEEE RADI obrisiKorisnika");
+    console.log("NEEE RADI birsanje poslovnice");
+
+    dispatch({ type: "add_error", payload: "Doslo je do greske" });
+  }
+};
+
+const proizvodiIzPoslovnice = (dispatch) => async (proizvodi) => {
+  try {
+    const response = await trackerApi.post("/proizvodi-poslovnice", {
+      proizvodi: proizvodi,
+    });
+
+    return response.data;
+  } catch (err) {
+    console.log("Error kod odgovora rute 'proizvodi-poslovnice'");
+    console.error(err);
 
     dispatch({ type: "add_error", payload: "Doslo je do greske" });
   }
@@ -551,6 +566,7 @@ export const { Provider, Context } = createDataContext(
     obrisiProizvod,
     obrisiPoslovnicu,
     dodavanjeProizvodaSkladiste,
+    proizvodiIzPoslovnice,
   },
 
   { token: null, errorMessage: "", dodan: "", list: null, edit: "" }
