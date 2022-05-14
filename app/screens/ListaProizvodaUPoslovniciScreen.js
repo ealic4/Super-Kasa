@@ -14,44 +14,20 @@ const ListaProizvodaUPoslovniciScreen = ({ route }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      let isActive = true;
-      const fetchData = async () => {
-        try {
-          const proizvodiRes = await proizvodiIzPoslovnice(
-            route.params.poslovnica.proizvodi
-          );
-          if (isActive) {
-            console.log(proizvodiRes);
-            setProizvodi(proizvodiRes);
-          }
-        } catch (e) {
-          console.error(err);
-        }
-      };
-
-      fetchData();
-
-      return () => {
-        isActive = false;
-      };
-    }, [])
-
-    /*
-    React.useCallback(() => {
       function fetchData() {
         proizvodiIzPoslovnice(route.params.poslovnica.proizvodi)
           .then((result) => {
-            setProizvodi(result);
+            setProizvodi(result.listaProizvoda);
             return;
           })
           .catch((error) => console.error(error));
       }
+
       fetchData();
-      console.log(proizvodi);
-    })*/
+    }, [])
   );
 
-  const ItemRender = ({ poslovnica: proizvod }) => (
+  const ItemRender = ({ proizvod }) => (
     <ListItem bottomDivider containerStyle={{ margin: 3 }}>
       <ListItem.Content>
         <ListItem.Title h3 h3Style={{ fontWeight: "bold" }}>
@@ -59,9 +35,9 @@ const ListaProizvodaUPoslovniciScreen = ({ route }) => {
         </ListItem.Title>
         <ListItem.Subtitle>
           <Text>
-            Adresa: {proizvod.kolicina}
+            Količina: {proizvod.kolicina}
             {"\n"}
-            Grad: {proizvod.jedinica}
+            Jedinica: {proizvod.jedinica}
           </Text>
         </ListItem.Subtitle>
       </ListItem.Content>
@@ -86,8 +62,8 @@ const ListaProizvodaUPoslovniciScreen = ({ route }) => {
       <FlatList
         style={styles.list}
         data={proizvodi}
-        renderItem={({ item }) => <ItemRender poslovnica={item.proizvod} />}
-        keyExtractor={(item) => item.proizvod.id}
+        renderItem={(item) => <ItemRender proizvod={item.item} />}
+        keyExtractor={(item) => item._id}
       />
     </SafeAreaView>
   );
@@ -102,9 +78,6 @@ const styles = StyleSheet.create({
 
   list: {
     margin: 10,
-    flex: 1,
-    width: "90%",
-    backgroundColor: "#f00",
   },
 });
 
