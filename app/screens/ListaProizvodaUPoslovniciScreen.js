@@ -3,14 +3,14 @@ import { StyleSheet, View, FlatList } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Text, ListItem } from "@rneui/base";
-import { Button } from "react-native-paper";
+import { Provider, Dialog, FAB, IconButton, Portal } from "react-native-paper";
 import { Context as AuthContex } from "../context/AuthContext";
 
 const { useState } = React;
 
-const ListaProizvodaUPoslovniciScreen = ({ route }) => {
+const ListaProizvodaUPoslovniciScreen = ({ route, navigation }) => {
   const [proizvodi, setProizvodi] = useState([]);
-  const { proizvodiIzPoslovnice } = useContext(AuthContex);
+  const { proizvodiIzPoslovnice, listaProizvodaPos } = useContext(AuthContex);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -36,6 +36,8 @@ const ListaProizvodaUPoslovniciScreen = ({ route }) => {
       };
     }, [])
 
+    
+
     /*
     React.useCallback(() => {
       function fetchData() {
@@ -50,6 +52,11 @@ const ListaProizvodaUPoslovniciScreen = ({ route }) => {
       console.log(proizvodi);
     })*/
   );
+
+  const listaPro = ()=>{
+
+    listaProizvodaPos(route.params.poslovnica.naziv)  
+  }
 
   const ItemRender = ({ poslovnica: proizvod }) => (
     <ListItem bottomDivider containerStyle={{ margin: 3 }}>
@@ -87,7 +94,14 @@ const ListaProizvodaUPoslovniciScreen = ({ route }) => {
         style={styles.list}
         data={proizvodi}
         renderItem={({ item }) => <ItemRender poslovnica={item.proizvod} />}
-        keyExtractor={(item) => item.proizvod.id}
+        keyExtractor={(item) => item._id}
+      />
+
+      <FAB
+      style={styles.fab}
+      large
+      icon="plus"
+      onPress={listaPro}
       />
     </SafeAreaView>
   );
@@ -105,6 +119,14 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "90%",
     backgroundColor: "#f00",
+  },
+
+  fab: {
+    backgroundColor: "#46b4e7",
+
+    margin: 50,
+    left: 0,
+    bottom: 0,
   },
 });
 
