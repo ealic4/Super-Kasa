@@ -7,21 +7,6 @@ import { Button } from "react-native-paper";
 import { Context as AuthContex } from "../context/AuthContext";
 
 const { useState } = React;
-/*
-const DATA = [
-  {
-    id: "627ee79969fd353898902309",
-    naziv: "NesKafa",
-    kolicina: "10",
-    jedinica: "vrećica",
-  },
-  {
-    id: "627ee7f669fd35389890230b",
-    naziv: "Jabuka",
-    kolicina: "40",
-    jedinica: "kg",
-  },
-];*/
 
 const ListaProizvodaUPoslovniciScreen = ({ route }) => {
   const [proizvodi, setProizvodi] = useState([]);
@@ -50,9 +35,9 @@ const ListaProizvodaUPoslovniciScreen = ({ route }) => {
         </ListItem.Title>
         <ListItem.Subtitle>
           <Text>
-            Adresa: {proizvod.kolicina}
+            Količina: {proizvod.kolicina}
             {"\n"}
-            Grad: {proizvod.jedinica}
+            Jedinica: {proizvod.jedinica}
           </Text>
         </ListItem.Subtitle>
       </ListItem.Content>
