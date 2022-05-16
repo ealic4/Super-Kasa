@@ -38,20 +38,21 @@ const ListaProizvodaUPoslovniciScreen = ({ route, navigation }) => {
 
     
 
-    /*
+    
     React.useCallback(() => {
       function fetchData() {
         proizvodiIzPoslovnice(route.params.poslovnica.proizvodi)
           .then((result) => {
-            setProizvodi(result);
+            setProizvodi(result.listaProizvoda);
             return;
           })
           .catch((error) => console.error(error));
       }
+
       fetchData();
-      console.log(proizvodi);
-    })*/
+    }, [])
   );
+
 
   const listaPro = ()=>{
 
@@ -59,6 +60,9 @@ const ListaProizvodaUPoslovniciScreen = ({ route, navigation }) => {
   }
 
   const ItemRender = ({ poslovnica: proizvod }) => (
+
+  const ItemRender = ({ proizvod }) => (
+
     <ListItem bottomDivider containerStyle={{ margin: 3 }}>
       <ListItem.Content>
         <ListItem.Title h3 h3Style={{ fontWeight: "bold" }}>
@@ -66,9 +70,9 @@ const ListaProizvodaUPoslovniciScreen = ({ route, navigation }) => {
         </ListItem.Title>
         <ListItem.Subtitle>
           <Text>
-            Adresa: {proizvod.kolicina}
+            Količina: {proizvod.kolicina}
             {"\n"}
-            Grad: {proizvod.jedinica}
+            Jedinica: {proizvod.jedinica}
           </Text>
         </ListItem.Subtitle>
       </ListItem.Content>
@@ -102,6 +106,8 @@ const ListaProizvodaUPoslovniciScreen = ({ route, navigation }) => {
       large
       icon="plus"
       onPress={listaPro}
+        renderItem={(item) => <ItemRender proizvod={item.item} />}
+        keyExtractor={(item) => item._id}
       />
     </SafeAreaView>
   );
@@ -116,9 +122,6 @@ const styles = StyleSheet.create({
 
   list: {
     margin: 10,
-    flex: 1,
-    width: "90%",
-    backgroundColor: "#f00",
   },
 
   fab: {

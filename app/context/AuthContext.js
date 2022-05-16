@@ -534,7 +534,6 @@ const proizvodiIzPoslovnice = (dispatch) => async (proizvodi) => {
     const response = await trackerApi.post("/proizvodi-poslovnice", {
       proizvodi: proizvodi,
     });
-
     return response.data;
   } catch (err) {
     console.log("Error kod odgovora rute 'proizvodi-poslovnice'");

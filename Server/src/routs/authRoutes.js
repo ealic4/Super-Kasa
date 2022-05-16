@@ -501,22 +501,7 @@ router.post("/proizvodi-poslovnice", async (req, res) => {
   try {
     let proizvodi = await Proizvod.find({ _id: { $in: req.body.proizvodi } });
 
-    let listaProizvoda = [];
-
-    for (i = 0; i < proizvodi.length; i++) {
-      let temp = {
-        proizvod: {
-          id: proizvodi[i]._id,
-          naziv: proizvodi[i].naziv,
-          kolicina: proizvodi[i].kolicina,
-          jedinica: proizvodi[i].jedinica,
-          status: proizvodi[i].stanje,
-        },
-      };
-      listaProizvoda.push(temp);
-    }
-
-    res.send({ listaProizvoda: listaProizvoda });
+    res.send({ listaProizvoda: proizvodi });
   } catch (err) {
     console.log("Error sa bazom podataka");
     console.error(err);
