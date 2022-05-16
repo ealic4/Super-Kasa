@@ -3,16 +3,42 @@ import { StyleSheet, View, FlatList } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Text, ListItem } from "@rneui/base";
-import { Button } from "react-native-paper";
+import { Provider, Dialog, FAB, IconButton, Portal } from "react-native-paper";
 import { Context as AuthContex } from "../context/AuthContext";
 
 const { useState } = React;
 
-const ListaProizvodaUPoslovniciScreen = ({ route }) => {
+const ListaProizvodaUPoslovniciScreen = ({ route, navigation }) => {
   const [proizvodi, setProizvodi] = useState([]);
-  const { proizvodiIzPoslovnice } = useContext(AuthContex);
+  const { proizvodiIzPoslovnice, listaProizvodaPos } = useContext(AuthContex);
 
   useFocusEffect(
+    React.useCallback(() => {
+      let isActive = true;
+      const fetchData = async () => {
+        try {
+          const proizvodiRes = await proizvodiIzPoslovnice(
+            route.params.poslovnica.proizvodi
+          );
+          if (isActive) {
+            console.log(proizvodiRes);
+            setProizvodi(proizvodiRes);
+          }
+        } catch (e) {
+          console.error(err);
+        }
+      };
+
+      fetchData();
+
+      return () => {
+        isActive = false;
+      };
+    }, [])
+
+    
+
+    
     React.useCallback(() => {
       function fetchData() {
         proizvodiIzPoslovnice(route.params.poslovnica.proizvodi)
@@ -27,7 +53,16 @@ const ListaProizvodaUPoslovniciScreen = ({ route }) => {
     }, [])
   );
 
+
+  const listaPro = ()=>{
+
+    listaProizvodaPos(route.params.poslovnica.naziv)  
+  }
+
+  const ItemRender = ({ poslovnica: proizvod }) => (
+
   const ItemRender = ({ proizvod }) => (
+
     <ListItem bottomDivider containerStyle={{ margin: 3 }}>
       <ListItem.Content>
         <ListItem.Title h3 h3Style={{ fontWeight: "bold" }}>
@@ -62,6 +97,15 @@ const ListaProizvodaUPoslovniciScreen = ({ route }) => {
       <FlatList
         style={styles.list}
         data={proizvodi}
+        renderItem={({ item }) => <ItemRender poslovnica={item.proizvod} />}
+        keyExtractor={(item) => item._id}
+      />
+
+      <FAB
+      style={styles.fab}
+      large
+      icon="plus"
+      onPress={listaPro}
         renderItem={(item) => <ItemRender proizvod={item.item} />}
         keyExtractor={(item) => item._id}
       />
@@ -78,6 +122,14 @@ const styles = StyleSheet.create({
 
   list: {
     margin: 10,
+  },
+
+  fab: {
+    backgroundColor: "#46b4e7",
+
+    margin: 50,
+    left: 0,
+    bottom: 0,
   },
 });
 
