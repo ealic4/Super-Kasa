@@ -10,7 +10,8 @@ function ProizvodEditScreen({ navigation }){
 
   const [nazivS, setSNaziv] = useState('');
   const [kolicinaS, setSKolicina ] = useState('');
-  const [jedinicaS, setSJedinica] = useState(''); 
+  const [jedinicaS, setSJedinica] = useState('');
+  const[pressed,setPressed]=React.useState(false); 
 
   const [naziv, setNaziv] = useState('');
   const [kolicina, setKolicina ] = useState('');
@@ -114,7 +115,17 @@ const styles = StyleSheet.create({
   },
   buttonPrimi: {
     alignItems: "center",
-    backgroundColor: "green",
+    width: '90%',
+    backgroundColor: 'green',
+    height: 45,
+    padding: 11,
+    borderRadius:20,
+    marginTop: 8,
+    justifyContent: 'center',
+  },
+  buttonPrimljen: {
+    alignItems: "center",
+    backgroundColor: "red",
     width: '90%',
     height: 45,
     padding: 11,

@@ -288,7 +288,7 @@ router.post("/preuzimanjePro/:nazivS", async (req,res) => {
    const naziv = req.params.nazivS;
    
    try {
-     console.out(naziv);
+     
      await Proizvod.updateOne(
        {
          naziv:naziv,
