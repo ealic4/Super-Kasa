@@ -131,13 +131,13 @@ router.post("/dodajPos", async (req, res) => {
 });
 
 router.post("/dodajProSkladiste", async (req, res) => {
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  const { naziv, kolicina, jedinica } = req.body;
+  const { naziv, kolicina, jedinica, stanje } = req.body;
   try {
     const proizvod = new Proizvod({
       naziv,
       kolicina,
       jedinica,
+      stanje
     });
     await proizvod.save();
     console.log("proizvod dodan u skladiste");
@@ -322,6 +322,27 @@ router.post("/proizvodEdit", async (req, res) => {
     res.status(422).send({ error: "greska" });
   }
 });
+
+router.post("/preuzimanjePro/:nazivS", async (req,res) => {
+   const naziv = req.params.nazivS;
+   
+   try {
+     
+     await Proizvod.updateOne(
+       {
+         naziv:naziv,
+       },
+       {
+         $set: {
+           stanje:"primljen"
+         }
+       }
+     )
+     res.send("radi preuzimanje");
+   }catch(err) {
+    res.status(422).send({ error: "greska" });
+  }
+ });
 
 router.get("/korisnici", async (req, res) => {
   const user = await User.find();

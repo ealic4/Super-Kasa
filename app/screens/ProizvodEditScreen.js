@@ -1,3 +1,4 @@
+
 import React, { useState, useContext, useEffect } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import {
@@ -22,6 +23,7 @@ function ProizvodEditScreen({ navigation }) {
   const [naziv, setNaziv] = useState("");
   const [kolicina, setKolicina] = useState("");
   const [jedinica, setJedinica] = useState("");
+  const [stanje, setStanje] = useState("poslan");
 
   useFocusEffect(
     React.useCallback(() => {
@@ -66,14 +68,16 @@ function ProizvodEditScreen({ navigation }) {
 
       <View style={{ flexDirection: "row" }}>
         <View width="40%">
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() =>
-              izmjenaProizvoda({ nazivS, naziv, kolicina, jedinica })
-            }
-          >
-            <Text style={styles.text}>IZMIJENI</Text>
-          </TouchableOpacity>
+
+        <TouchableOpacity style={styles.buttonPrimi} onPress={()=>preuzimanjeProizvoda(nazivS)}>
+          <Text style={styles.text}>Primljeno</Text>
+        </TouchableOpacity> 
+
+        <TouchableOpacity style={styles.button} onPress={()=> izmjenaProizvoda({nazivS,naziv,kolicina,jedinica})}>
+          <Text style={styles.text}>IZMIJENI</Text>
+        </TouchableOpacity>      
+
+
         </View>
 
         <View width="40%">
@@ -124,6 +128,26 @@ const styles = StyleSheet.create({
     fontSize: 5,
     marginTop: 8,
     justifyContent: "center",
+  },
+  buttonPrimi: {
+    alignItems: "center",
+    width: '90%',
+    backgroundColor: 'green',
+    height: 45,
+    padding: 11,
+    borderRadius:20,
+    marginTop: 8,
+    justifyContent: 'center',
+  },
+  buttonPrimljen: {
+    alignItems: "center",
+    backgroundColor: "red",
+    width: '90%',
+    height: 45,
+    padding: 11,
+    borderRadius:20,
+    marginTop: 8,
+    justifyContent: 'center',
   },
   text: {
     color: "#4a4b44",
