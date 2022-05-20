@@ -4,7 +4,7 @@ import { Context as AuthContext } from '../context/AuthContext'
 
 function KorisnikScreen(){
 
-  const {state, korisnikPod2, signout} = useContext(AuthContext);
+  const {state, korisnikPod2, signout, ListaNarudzbi} = useContext(AuthContext);
 
   const getItem = () => {
  
@@ -12,12 +12,23 @@ function KorisnikScreen(){
 
   } 
 
+  const listaPos = ()=>{
+
+    ListaNarudzbi()  
+  
+  }
+
+ 
   return (
 
     <SafeAreaView style={styles.container}>
 
         <Text style={styles.naslov}>KORISNIK</Text>
 
+
+        <TouchableOpacity style={styles.narudzba} onPress={listaPos}>
+        <Text style={styles.text}>NARUDZBE</Text>
+        </TouchableOpacity>
         <TouchableOpacity style={styles.sifra} onPress={getItem}>
         <Text style={styles.text}>PROMJENA SIFRE</Text>
         </TouchableOpacity>
@@ -80,6 +91,20 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: "18%",
   },
+  narudzba: {
+    backgroundColor: "#46b4e7",
+    width: '60%',
+    height: 55,
+    padding: 14,
+    borderRadius:20,
+    margin: 10,
+    marginTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: "28%",
+  },
+
 });
 
 

@@ -4,9 +4,9 @@ const jwt = require("jsonwebtoken");
 
 const User = mongoose.model("User");
 const Proizvod = require("../models/Proizvod.js");
-
 const Log = require("../models/Log.js");
 const Poslovnica = require("../models/Poslovnica.js");
+const Narudzba = require("../models/Narudzba.js");
 
 const router = express.Router();
 
@@ -115,7 +115,6 @@ router.post("/dodaj", async (req, res) => {
 
 router.post("/dodajPos", async (req, res) => {
   const { naziv, grad, adresa } = req.body;
-
   try {
     const posl = new Poslovnica({
       naziv: naziv,
@@ -147,21 +146,14 @@ router.post("/dodajProSkladiste", async (req, res) => {
   }
 });
 
-router.post("/dodajProSkladiste", async (req, res) => {
-  const { naziv, kolicina, jedinica } = req.body;
-  try {
-    const proizvod = new Proizvod({
-      naziv,
-      kolicina,
-      jedinica,
-    });
-    await proizvod.save();
-    console.log("proizvod dodan u skladiste");
-    res.send({ proizvod });
-  } catch (err) {
-    res.status(422).send({ error: "greska" });
-  }
+
+router.get("/uvediPro/:naziv", async (req, res) => {           /////////////////////////////////////////////////////////////////RUTA ZA UVODJENJE PROIZVODA U POSLOVNICU//////////////////////////////////////////////////////////
+
+  const proizvod = await Proizvod.findOne({ naziv: req.params.naziv });
+
+  res.send({ proizvod });
 });
+
 
 router.post("/uvediPro", async (req, res) => {
   /////////////////////////////////////////////////////////////////RUTA ZA UVODJENJE PROIZVODA U POSLOVNICU//////////////////////////////////////////////////////////
@@ -518,6 +510,54 @@ router.delete("/poslovnice/:id", (req, res) => {
     .catch((error) => console.error(error));
 });
 
+router.get("/narudzbe/:idKorisnik", async (req, res) => {
+
+  const narudzbe = await Narudzba.find(  { 'idKorisnik': req.params.idKorisnik });
+
+  let listaNarudzbi = [];
+
+  for (i = 0; i < narudzbe.length; i++) {
+    const pos = await Poslovnica.findOne(  { '_id': narudzbe[i].idPoslovnice });
+
+    let temp = {
+      narudzba: {
+        id: narudzbe[i]._id,
+        naziv: narudzbe[i].naziv,
+        stol: narudzbe[i].stol,
+        nazivPoslovnce: pos.naziv,
+      },
+    };
+    listaNarudzbi.push(temp);
+  }
+
+
+  res.send({ listaNarudzbi: listaNarudzbi });
+});
+
+router.post("/dodajNarudzbu", async (req, res) => {
+
+
+  const { naziv, idKorisnik, poslovnica, stol } = req.body;
+
+  try {
+
+    var idProizvoda = '-';
+    var kolicina = '-';
+    const pos = await Poslovnica.findOne(  { 'naziv': poslovnica });
+    const idPoslovnice = pos._id
+    const narudzbe = new Narudzba({ naziv, stol, idKorisnik, idPoslovnice, idProizvoda, kolicina });
+
+
+    await narudzbe.save();
+
+    res.send(narudzbe);
+
+  } catch (err) {
+    console.log(err)
+    res.status(422).send({ error: "greska" });
+  }
+});
+
 router.post("/proizvodi-poslovnice", async (req, res) => {
   try {
     let proizvodi = await Proizvod.find({ _id: { $in: req.body.proizvodi } });
@@ -526,6 +566,7 @@ router.post("/proizvodi-poslovnice", async (req, res) => {
   } catch (err) {
     console.log("Error sa bazom podataka");
     console.error(err);
+
   }
 });
 

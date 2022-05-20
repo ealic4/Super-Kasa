@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
     margin: 5,
     marginTop: 8,
     justifyContent: "center",
+
   },
   text: {
     color: "#4a4b44",

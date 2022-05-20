@@ -7,7 +7,8 @@ const { useState } = React;
 
 const ListaProizvodaScreen = ({ navigation }) => {
   const [lista, setLista] = useState([]);
-  const { state, proizvodPod } = useContext(AuthContext);
+  const { state, korisnikPod, proizvodPod } = useContext(AuthContext);
+
 
   useFocusEffect(
     React.useCallback(() => {

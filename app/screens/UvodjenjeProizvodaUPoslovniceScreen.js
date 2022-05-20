@@ -4,6 +4,7 @@ import {StyleSheet, Text, View, SafeAreaView, FlatList, Alert, TouchableOpacity}
 import { Context as AuthContext } from '../context/AuthContext'
 const { useState } = React;
 
+
 const UvodjenjeProizvodaUPoslovniceScreen = ({ navigation, route }) => {
 
     const [lista, setLista] = useState([]);
@@ -38,6 +39,7 @@ const UvodjenjeProizvodaUPoslovniceScreen = ({ navigation, route }) => {
 
 
       const ItemRender = ({ proizvod }) => (
+
               <SafeAreaView style={styles.itemNeobiljezen}>
 
 <SafeAreaView style={{flex: 1}}>
@@ -59,15 +61,15 @@ const UvodjenjeProizvodaUPoslovniceScreen = ({ navigation, route }) => {
     return (
       <SafeAreaView style={styles.container}>
         
+
         <Text style={styles.item2}>{naziv_poslovnice}</Text>
         <Text style={styles.item2}> NAZIV        KOLICINA     JEDINICA</Text>
 
         <FlatList
           style={styles.listaa}
           data={lista}
-          renderItem={({ item }) => <TouchableOpacity  onPress={() => { 
-                  obiljezi(item.proizvod.id);
-                  setIsPress(!isPress);
+          renderItem={({ item }) => <TouchableOpacity onPress={() => { 
+                  uvediProizvod(item.proizvod.naziv);
               }}>
                 <ItemRender proizvod={item.proizvod} />
             </TouchableOpacity> }

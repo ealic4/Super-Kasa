@@ -1,4 +1,3 @@
-
 import React, { useState, useContext, useEffect } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import {
@@ -76,8 +75,6 @@ function ProizvodEditScreen({ navigation }) {
         <TouchableOpacity style={styles.button} onPress={()=> izmjenaProizvoda({nazivS,naziv,kolicina,jedinica})}>
           <Text style={styles.text}>IZMIJENI</Text>
         </TouchableOpacity>      
-
-
         </View>
 
         <View width="40%">

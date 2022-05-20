@@ -4,6 +4,7 @@ import createDataContext from "./CreateDataContext";
 import trackerApi from "../api/tracker";
 import Proizvod from "../../Server/src/models/Proizvod";
 
+
 const authReducer = (state, action) => {
   switch (action.type) {
     case "add_error":
@@ -23,6 +24,9 @@ const authReducer = (state, action) => {
 
     case "list":
       return { ...state, list: action.payload };
+
+    case "list2":
+      return { ...state, list2: action.payload };
 
     case "edit":
       console.log("DODANO");
@@ -293,6 +297,7 @@ const izmjenaProizvoda =
     }
   };
 
+
 const preuzimanjeProizvoda = (dispatch) => async (nazivS) => {  ///////////vraca error 404///////////
   try{
     console.log("proizvod: "+ nazivS+ " se preuzima");
@@ -470,7 +475,6 @@ const listaProizvoda = (dispatch) => async () => {
 
     try {
       console.log("1:" + response.data.listaP[0].proizvod.id);
-
       dispatch({ type: "list", payload: response.data.listaP });
     } catch (e) {
       const response = await trackerApi.get("/proizvodi");
@@ -508,6 +512,7 @@ const ListaPoslovnica = (dispatch) => async () => {
   }
 };
 
+
 const listaProizvodaPos = (dispatch) => async (naziv_poslovnice) => { ///////////////////////////////////////////////////////////////////////////////////////UVODJENJE PROIZVODA////////////////////////////////////////////////////////////////////////////
   try {
     console.log("otvorili smo poslovnicu "+ naziv_poslovnice)
@@ -532,8 +537,6 @@ const listaProizvodaPos = (dispatch) => async (naziv_poslovnice) => { //////////
   }
 };
 
-
-
 const obrisiPoslovnicu = (dispatch) => async (poslovnicaID) => {
   try {
     const response = await trackerApi.delete("/poslovnice/" + poslovnicaID);
@@ -541,6 +544,26 @@ const obrisiPoslovnicu = (dispatch) => async (poslovnicaID) => {
     console.log("NEEE RADI birsanje poslovnice");
 
     dispatch({ type: "add_error", payload: "Doslo je do greske" });
+  }
+};
+
+
+const DropListaPoslovnica = (dispatch) => async () => {
+  try {
+    const response = await trackerApi.get("/poslovnice");
+    try {
+      console.log("1:" + response.data.listaPoslovnica[0].poslovnica.id);
+      dispatch({ type: "list2", payload: response.data.listaPoslovnica });
+    } catch (e) {
+      const response = await trackerApi.get("/poslovnice");
+
+      dispatch({ type: "list2", payload: response.data.listaPoslovnica });
+      console.log("2: " + response.data.listaPoslovnica[0].poslovnica.id);
+    }
+
+    RootNavigation.navigate("NarudzbeDodaj");
+  } catch (err) {
+    console.log("NEEE RADI listaposlovnica!");
   }
 };
 
@@ -557,6 +580,60 @@ const proizvodiIzPoslovnice = (dispatch) => async (proizvodi) => {
     dispatch({ type: "add_error", payload: "Doslo je do greske" });
   }
 };
+
+const ListaNarudzbi = (dispatch) => async () => {
+  try {
+    const idKorisnik = await AsyncStorage.getItem("id");
+
+    console.log("KOR: "+idKorisnik)
+    const response = await trackerApi.get("/narudzbe/"+idKorisnik);
+    try {
+
+      dispatch({ type: "list", payload: response.data.listaNarudzbi });
+    } catch (e) {
+
+      const idKorisnik = await AsyncStorage.getItem("id");
+      console.log("KOR: "+idKorisnik)
+
+      const response = await trackerApi.get("/narudzbe/"+idKorisnik);
+
+
+      dispatch({ type: "list", payload: response.data.listaNarudzbi });
+    }
+
+    RootNavigation.navigate("NarudzbeS");
+  } catch (err) {
+    console.log("NEEE RADI listanarudzbi!");
+
+    dispatch({ type: "add_error", payload: "Doslo je do greske" });
+  }
+};
+
+
+const sviProizvodi = (dispatch) => async () => {
+  try {
+    const response = await trackerApi.get("/proizvodi");
+
+    return response.data
+
+    console.log(response.data);
+  } catch (err) { console.error(err) }
+}
+
+const dodavanjeNarudzbe = (dispatch) => async ({naziv, poslovnica, stol}) => {  
+  try {
+    
+    const idKorisnik = await AsyncStorage.getItem("id");
+    const response = await trackerApi.post('/dodajNarudzbu',  {naziv, idKorisnik, poslovnica, stol});
+
+    RootNavigation.navigate("Korisnik");
+
+  } catch(err) {
+        console.log("NE RADI DODAVANJE NARUDZBE")
+        console.log(err)
+        dispatch({type: 'add_error', payload: 'Doslo je do greske'});
+  }
+}
 
 export const { Provider, Context } = createDataContext(
   authReducer,
@@ -585,8 +662,12 @@ export const { Provider, Context } = createDataContext(
     dodavanjeProizvodaSkladiste,
     preuzimanjeProizvoda,
     proizvodiIzPoslovnice,
-
+    DropListaPoslovnica,
+    ListaNarudzbi,
+    dodavanjeNarudzbe,
+    sviProizvodi
   },
 
-  { token: null, errorMessage: "", dodan: "", list: null, edit: "" }
+  { token: null, errorMessage: "", dodan: "", list: null, edit: '', list2: null }
+
 );

@@ -14,6 +14,7 @@ const ListaPoslovnicaScreen = ({ navigation }) => {
     idPoslovnice: null,
     imePoslovnice: null,
   });
+
   const { state, obrisiPoslovnicu } = useContext(AuthContext);
 
   useFocusEffect(
@@ -61,6 +62,8 @@ const ListaPoslovnicaScreen = ({ navigation }) => {
           setDialog({
             visible: true,
             idPoslovnice: poslovnica.id,
+            imePoslovnice: poslovnica.naziv,
+
           })
         }
       />

@@ -125,5 +125,4 @@ const styles = StyleSheet.create({
     bottom: "18%",
   },
 });
-
 export default AdminSScreen;
