@@ -49,6 +49,7 @@ const NarudzbeScreen = ({ navigation }) => {
         size={20}
         style={{ textAlign: "center" }}
         type="font-awesome"
+        onPress={() => navigation.navigate("ProizvodiNarudzba", narudzba)}
       />
     </ListItem>
   );

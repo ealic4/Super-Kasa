@@ -13,14 +13,7 @@ const narudzbaSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  idProizvoda: {
-    type: String,
-    required: true,
-  },
-  kolicina: {
-    type: String,
-    required: true,
-  },
+  proizvodi: []
 });
 
 

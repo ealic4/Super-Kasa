@@ -67,65 +67,65 @@ const clearErrorMessage = (dispatch) => () => {
 
 const signup =
   (dispatch) =>
-  async ({
-    email,
-    password,
-    ime,
-    prezime,
-    jmbg,
-    omiljenaBoja,
-    omiljenaZivotinja,
-  }) => {
-    try {
-      const response = await trackerApi.post("/signup", {
-        email,
-        password,
-        ime,
-        prezime,
-        jmbg,
-        omiljenaBoja,
-        omiljenaZivotinja,
-      });
+    async ({
+      email,
+      password,
+      ime,
+      prezime,
+      jmbg,
+      omiljenaBoja,
+      omiljenaZivotinja,
+    }) => {
+      try {
+        const response = await trackerApi.post("/signup", {
+          email,
+          password,
+          ime,
+          prezime,
+          jmbg,
+          omiljenaBoja,
+          omiljenaZivotinja,
+        });
 
-      await AsyncStorage.setItem("token", response.data.token);
-      await AsyncStorage.setItem("id", response.data.id);
-      await AsyncStorage.setItem("email", response.data.email);
-      dispatch({ type: "signin", payload: response.data.token });
-      await AsyncStorage.setItem("korisnik", "Korisnik");
+        await AsyncStorage.setItem("token", response.data.token);
+        await AsyncStorage.setItem("id", response.data.id);
+        await AsyncStorage.setItem("email", response.data.email);
+        dispatch({ type: "signin", payload: response.data.token });
+        await AsyncStorage.setItem("korisnik", "Korisnik");
 
-      RootNavigation.reset("Korisnik");
-    } catch (err) {
-      dispatch({ type: "add_error", payload: "Doslo je do greske" });
-    }
-  };
+        RootNavigation.reset("Korisnik");
+      } catch (err) {
+        dispatch({ type: "add_error", payload: "Doslo je do greske" });
+      }
+    };
 
 const signin =
   (dispatch) =>
-  async ({ email, password }) => {
-    try {
-      const response = await trackerApi.post("/signin", { email, password });
-      await AsyncStorage.setItem("token", response.data.token);
-      await AsyncStorage.setItem("email", response.data.email);
-      await AsyncStorage.setItem("id", response.data.id);
-      dispatch({ type: "signin", payload: response.data.token });
+    async ({ email, password }) => {
+      try {
+        const response = await trackerApi.post("/signin", { email, password });
+        await AsyncStorage.setItem("token", response.data.token);
+        await AsyncStorage.setItem("email", response.data.email);
+        await AsyncStorage.setItem("id", response.data.id);
+        dispatch({ type: "signin", payload: response.data.token });
 
-      if (email == "admin") {
-        await AsyncStorage.setItem("korisnik", "Admin");
-        RootNavigation.reset("Admin");
-      } else if (email == "adminS") {
-        await AsyncStorage.setItem("korisnik", "AdminS");
-        RootNavigation.reset("AdminS");
-      } else {
-        RootNavigation.reset("Korisnik");
-        await AsyncStorage.setItem("korisnik", "Korisnik");
+        if (email == "admin") {
+          await AsyncStorage.setItem("korisnik", "Admin");
+          RootNavigation.reset("Admin");
+        } else if (email == "adminS") {
+          await AsyncStorage.setItem("korisnik", "AdminS");
+          RootNavigation.reset("AdminS");
+        } else {
+          RootNavigation.reset("Korisnik");
+          await AsyncStorage.setItem("korisnik", "Korisnik");
+        }
+      } catch (error) {
+        dispatch({
+          type: "add_error",
+          payload: "Doslo je do greske",
+        });
       }
-    } catch (error) {
-      dispatch({
-        type: "add_error",
-        payload: "Doslo je do greske",
-      });
-    }
-  };
+    };
 
 const signout = (dispatch) => async () => {
   let user = {
@@ -147,70 +147,70 @@ const signout = (dispatch) => async () => {
 
 const dodavanje =
   (dispatch) =>
-  async ({
-    email,
-    password,
-    ime,
-    prezime,
-    jmbg,
-    omiljenaBoja,
-    omiljenaZivotinja,
-    value,
-  }) => {
-    try {
-      console.log("tipKor: " + value);
+    async ({
+      email,
+      password,
+      ime,
+      prezime,
+      jmbg,
+      omiljenaBoja,
+      omiljenaZivotinja,
+      value,
+    }) => {
+      try {
+        console.log("tipKor: " + value);
 
-      const response = await trackerApi.post("/dodaj", {
-        email,
-        password,
-        ime,
-        prezime,
-        jmbg,
-        omiljenaBoja,
-        omiljenaZivotinja,
-        value,
-      });
+        const response = await trackerApi.post("/dodaj", {
+          email,
+          password,
+          ime,
+          prezime,
+          jmbg,
+          omiljenaBoja,
+          omiljenaZivotinja,
+          value,
+        });
 
-      dispatch({ type: "dodaj", payload: response.data.token });
+        dispatch({ type: "dodaj", payload: response.data.token });
 
-      console.log("DODANO");
-    } catch (err) {
-      console.log("NEEE RADI DODAJ");
-      console.log(err);
+        console.log("DODANO");
+      } catch (err) {
+        console.log("NEEE RADI DODAJ");
+        console.log(err);
 
-      dispatch({ type: "add_error", payload: "Doslo je do greske" });
+        dispatch({ type: "add_error", payload: "Doslo je do greske" });
 
-        
-    }
 
-};
+      }
 
-const dodavanjePoslovnice = (dispatch) => async ({naziv, grad, adresa}) => {  
+    };
+
+const dodavanjePoslovnice = (dispatch) => async ({ naziv, grad, adresa }) => {
   try {
-    
-    const response = await trackerApi.post('/dodajPos',  {naziv, grad, adresa});
-    console.log(response.naziv);
-    dispatch({type:"dodajPos", payload:response.naziv});
-    
 
-  } catch(err) {
+    const response = await trackerApi.post('/dodajPos', { naziv, grad, adresa });
+    console.log(response.naziv);
+    dispatch({ type: "dodajPos", payload: response.naziv });
+
+
+  } catch (err) {
     console.log("NE RADI DODAVANJE POSLOVNICE")
-        console.log(err)
-        dispatch({type: 'add_error', payload: 'Doslo je do greske'});
+    console.log(err)
+    dispatch({ type: 'add_error', payload: 'Doslo je do greske' });
   }
 }
 
-const dodavanjeProizvodaSkladiste = (dispatch) => async ({naziv, kolicina, jedinica}) => {
+const dodavanjeProizvodaSkladiste = (dispatch) => async ({ naziv, kolicina, jedinica }) => {
   try {
     console.log(naziv)
-    const response = await trackerApi.post('/dodajProSkladiste',{naziv, kolicina, jedinica});
+    const response = await trackerApi.post('/dodajProSkladiste', { naziv, kolicina, jedinica });
     console.log(response.naziv);
-    dispatch({type:"dodajPro", payload:response.data});
+    dispatch({ type: "dodajPro", payload: response.data });
 
-  } catch(err) {
+  } catch (err) {
     console.log("NE RADI dodavanjeProizvodaSkladiste")
-        console.log(err)
-        dispatch({type: 'add_error', payload: 'Doslo je do greske'});
+    console.log(err)
+    dispatch({ type: 'add_error', payload: 'Doslo je do greske' });
   }
 }
 
@@ -220,7 +220,7 @@ const dodavanjeProizvodaSkladiste = (dispatch) => async ({naziv, kolicina, jedin
 const uvediProizvod = (dispatch) => async (naziv) => {
   //////////////////////////////////////////////dodjeljivanje proizvoda //////////////////////////////////////////////////////
   try {
-    const response = await trackerApi.get('/uvediPro/'+naziv);
+    const response = await trackerApi.get('/uvediPro/' + naziv);
     try {
       console.log(response.jedinica);
       dispatch({ type: "dodajPro", payload: response.naziv });
@@ -238,74 +238,74 @@ const uvediProizvod = (dispatch) => async (naziv) => {
 
 const izmjenaKorisnika =
   (dispatch) =>
-  async ({
-    email,
-    password,
-    ime,
-    prezime,
-    jmbg,
-    omiljenaBoja,
-    omiljenaZivotinja,
-    value,
-  }) => {
-    try {
-      const response = await trackerApi.post("/korisnikEdit", {
-        email,
-        password,
-        ime,
-        prezime,
-        jmbg,
-        omiljenaBoja,
-        omiljenaZivotinja,
-        value,
-      });
+    async ({
+      email,
+      password,
+      ime,
+      prezime,
+      jmbg,
+      omiljenaBoja,
+      omiljenaZivotinja,
+      value,
+    }) => {
+      try {
+        const response = await trackerApi.post("/korisnikEdit", {
+          email,
+          password,
+          ime,
+          prezime,
+          jmbg,
+          omiljenaBoja,
+          omiljenaZivotinja,
+          value,
+        });
 
-      console.log(email);
+        console.log(email);
 
-      RootNavigation.navigate("Admin");
-    } catch (err) {
-      console.log("NEEE RADI izmjenaKorisnika");
-      console.log(err);
+        RootNavigation.navigate("Admin");
+      } catch (err) {
+        console.log("NEEE RADI izmjenaKorisnika");
+        console.log(err);
 
-      dispatch({ type: "add_error", payload: "Doslo je do greske" });
-    }
-  };
+        dispatch({ type: "add_error", payload: "Doslo je do greske" });
+      }
+    };
 
 
 
 const izmjenaProizvoda =
   (dispatch) =>
-  async ({ nazivS, naziv, kolicina, jedinica }) => {
-    try {
-      const response = await trackerApi.post("/proizvodEdit", {
-        nazivS,
-        naziv,
-        kolicina,
-        jedinica,
-      });
+    async ({ nazivS, naziv, kolicina, jedinica }) => {
+      try {
+        const response = await trackerApi.post("/proizvodEdit", {
+          nazivS,
+          naziv,
+          kolicina,
+          jedinica,
+        });
 
-      RootNavigation.navigate("AdminS");
-    } catch (err) {
-      console.log("NEEE RADI izmjenaProizvoda");
-      console.log(err);
+        RootNavigation.navigate("AdminS");
+      } catch (err) {
+        console.log("NEEE RADI izmjenaProizvoda");
+        console.log(err);
 
-      dispatch({ type: "add_error", payload: "Doslo je do greske" });
-    }
-  };
+        dispatch({ type: "add_error", payload: "Doslo je do greske" });
+      }
+    };
 
 
 
- const obrisiProizvod = dispatch => async (naziv) => {
-   try {
-    console.log("proizvod: "+naziv)
-    const response = await trackerApi.delete('/izbrisiPro/'+naziv);
+const obrisiProizvod = dispatch => async (naziv) => {
+  try {
+    console.log("proizvod: " + naziv)
+    const response = await trackerApi.delete('/izbrisiPro/' + naziv);
     RootNavigation.reset('AdminS');
-    console.log("proizvod "+naziv+" izbrisan");
-   } catch (err) {
-    console.log("NEEE RADI obrisiProizvod")     
-    dispatch({type: 'add_error', payload: 'Doslo je do greske'});
-   }
- }
+    console.log("proizvod " + naziv + " izbrisan");
+  } catch (err) {
+    console.log("NEEE RADI obrisiProizvod")
+    dispatch({ type: 'add_error', payload: 'Doslo je do greske' });
+  }
+}
 
 
 const listaKorisnika = (dispatch) => async () => {
@@ -417,42 +417,42 @@ const korisnikPod2 = (dispatch) => async () => {
 
 const izmjenaKorisnika2 =
   (dispatch) =>
-  async ({
-    email,
-    password,
-    ime,
-    prezime,
-    jmbg,
-    omiljenaBoja,
-    omiljenaZivotinja,
-    value,
-  }) => {
-    try {
-      console.log("PASS " + password);
+    async ({
+      email,
+      password,
+      ime,
+      prezime,
+      jmbg,
+      omiljenaBoja,
+      omiljenaZivotinja,
+      value,
+    }) => {
+      try {
+        console.log("PASS " + password);
 
-      const response = await trackerApi.post("/korisnikEdit", {
-        email,
-        password,
-        ime,
-        prezime,
-        jmbg,
-        omiljenaBoja,
-        omiljenaZivotinja,
-        value,
-      });
+        const response = await trackerApi.post("/korisnikEdit", {
+          email,
+          password,
+          ime,
+          prezime,
+          jmbg,
+          omiljenaBoja,
+          omiljenaZivotinja,
+          value,
+        });
 
-      //dispatch({type: 'korisnikEdit', payload:response.data.token});
+        //dispatch({type: 'korisnikEdit', payload:response.data.token});
 
-      console.log(email);
+        console.log(email);
 
-      RootNavigation.navigate("Korisnik");
-    } catch (err) {
-      console.log("NEEE RADI IZMIJENI");
-      console.log(err);
+        RootNavigation.navigate("Korisnik");
+      } catch (err) {
+        console.log("NEEE RADI IZMIJENI");
+        console.log(err);
 
-      dispatch({ type: "add_error", payload: "Doslo je do greske" });
-    }
-  };
+        dispatch({ type: "add_error", payload: "Doslo je do greske" });
+      }
+    };
 
 const listaProizvoda = (dispatch) => async () => {
   try {
@@ -553,20 +553,21 @@ const DropListaPoslovnica = (dispatch) => async () => {
 const ListaNarudzbi = (dispatch) => async () => {
   try {
     const idKorisnik = await AsyncStorage.getItem("id");
-    console.log("KOR: "+idKorisnik)
-    const response = await trackerApi.get("/narudzbe/"+idKorisnik);
+    console.log("KOR: " + idKorisnik)
+    const response = await trackerApi.get("/narudzbe/" + idKorisnik);
     try {
-      console.log("1:" + response.data.listaNarudzbi[0].narudzba.id);
+
       dispatch({ type: "list", payload: response.data.listaNarudzbi });
     } catch (e) {
 
       const idKorisnik = await AsyncStorage.getItem("id");
-      console.log("KOR: "+idKorisnik)
+      console.log("KOR: " + idKorisnik)
 
-      const response = await trackerApi.get("/narudzbe/"+idKorisnik);
+      const response = await trackerApi.get("/narudzbe/" + idKorisnik);
+      console.log(response.data)
+
 
       dispatch({ type: "list", payload: response.data.listaNarudzbi });
-      console.log("2: " + response.data.listaNarudzbi[0].narudzba.id);
     }
 
     RootNavigation.navigate("NarudzbeS");
@@ -578,9 +579,9 @@ const ListaNarudzbi = (dispatch) => async () => {
 };
 
 
-const dodavanjeNarudzbe = (dispatch) => async ({naziv, poslovnica}) => {  
+const dodavanjeNarudzbe = (dispatch) => async ({ naziv, poslovnica }) => {
   try {
-    
+
     const idKorisnik = await AsyncStorage.getItem("id");
 
     console.log(naziv)
@@ -588,16 +589,26 @@ const dodavanjeNarudzbe = (dispatch) => async ({naziv, poslovnica}) => {
     console.log(poslovnica)
 
 
-    const response = await trackerApi.post('/dodajNarudzbu',  {naziv, idKorisnik, poslovnica});
+    const response = await trackerApi.post('/dodajNarudzbu', { naziv, idKorisnik, poslovnica });
     //console.log(response.naziv);
     //dispatch({type:"dodajPos", payload:response.naziv});
     RootNavigation.navigate("Korisnik");
 
-  } catch(err) {
+  } catch (err) {
     console.log("NE RADI DODAVANJE NARUDZBE")
-        console.log(err)
-        dispatch({type: 'add_error', payload: 'Doslo je do greske'});
+    console.log(err)
+    dispatch({ type: 'add_error', payload: 'Doslo je do greske' });
   }
+}
+
+const sviProizvodi = (dispatch) => async () => {
+  try {
+    const response = await trackerApi.get("/proizvodi");
+
+    return response.data
+
+    console.log(response.data);
+  } catch (err) { console.error(err) }
 }
 
 export const { Provider, Context } = createDataContext(
@@ -627,9 +638,10 @@ export const { Provider, Context } = createDataContext(
     dodavanjeProizvodaSkladiste,
     DropListaPoslovnica,
     ListaNarudzbi,
-    dodavanjeNarudzbe 
+    dodavanjeNarudzbe,
+    sviProizvodi
   },
 
-  { token: null, errorMessage: "", dodan: "", list:null, edit:'', list2:null}
+  { token: null, errorMessage: "", dodan: "", list: null, edit: '', list2: null }
 
 );

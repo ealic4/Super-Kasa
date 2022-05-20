@@ -112,8 +112,6 @@ function DodavanjeNarudzbeScreen({navigation,route}){
     },
     picker: {
         width:"40%",
-        alignItems: 'center',
-        justifyContent: 'center',
     },
 
    
