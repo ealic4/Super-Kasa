@@ -147,6 +147,7 @@ const signout = (dispatch) => async () => {
 
 const dodavanje =
   (dispatch) =>
+
   async ({
     email,
     password,
@@ -553,9 +554,11 @@ const DropListaPoslovnica = (dispatch) => async () => {
 const ListaNarudzbi = (dispatch) => async () => {
   try {
     const idKorisnik = await AsyncStorage.getItem("id");
+
     console.log("KOR: "+idKorisnik)
     const response = await trackerApi.get("/narudzbe/"+idKorisnik);
     try {
+
       dispatch({ type: "list", payload: response.data.listaNarudzbi });
     } catch (e) {
 
@@ -563,6 +566,7 @@ const ListaNarudzbi = (dispatch) => async () => {
       console.log("KOR: "+idKorisnik)
 
       const response = await trackerApi.get("/narudzbe/"+idKorisnik);
+
 
       dispatch({ type: "list", payload: response.data.listaNarudzbi });
     }
@@ -575,6 +579,16 @@ const ListaNarudzbi = (dispatch) => async () => {
   }
 };
 
+
+const sviProizvodi = (dispatch) => async () => {
+  try {
+    const response = await trackerApi.get("/proizvodi");
+
+    return response.data
+
+    console.log(response.data);
+  } catch (err) { console.error(err) }
+}
 
 const dodavanjeNarudzbe = (dispatch) => async ({naziv, poslovnica, stol}) => {  
   try {
@@ -590,6 +604,7 @@ const dodavanjeNarudzbe = (dispatch) => async ({naziv, poslovnica, stol}) => {
         dispatch({type: 'add_error', payload: 'Doslo je do greske'});
   }
 }
+
 
 export const { Provider, Context } = createDataContext(
   authReducer,
@@ -618,9 +633,10 @@ export const { Provider, Context } = createDataContext(
     dodavanjeProizvodaSkladiste,
     DropListaPoslovnica,
     ListaNarudzbi,
-    dodavanjeNarudzbe 
+    dodavanjeNarudzbe,
+    sviProizvodi
   },
 
-  { token: null, errorMessage: "", dodan: "", list:null, edit:'', list2:null}
+  { token: null, errorMessage: "", dodan: "", list: null, edit: '', list2: null }
 
 );

@@ -479,6 +479,7 @@ router.get("/narudzbe/:idKorisnik", async (req, res) => {
 
 router.post("/dodajNarudzbu", async (req, res) => {
 
+
   const { naziv, idKorisnik, poslovnica, stol } = req.body;
 
   try {
@@ -488,6 +489,7 @@ router.post("/dodajNarudzbu", async (req, res) => {
     const pos = await Poslovnica.findOne(  { 'naziv': poslovnica });
     const idPoslovnice = pos._id
     const narudzbe = new Narudzba({ naziv, stol, idKorisnik, idPoslovnice, idProizvoda, kolicina });
+
 
     await narudzbe.save();
 

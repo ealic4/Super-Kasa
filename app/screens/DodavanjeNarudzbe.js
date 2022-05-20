@@ -13,6 +13,7 @@ function DodavanjeNarudzbeScreen({navigation,route}){
     const [poslovnica, setPoslovnica] = useState("");
     const [stol, setStol] = useState("");
 
+
   
     useFocusEffect(
       React.useCallback(() => {
@@ -114,8 +115,6 @@ function DodavanjeNarudzbeScreen({navigation,route}){
     },
     picker: {
         width:"40%",
-        alignItems: 'center',
-        justifyContent: 'center',
     },
 
    
