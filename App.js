@@ -20,6 +20,7 @@ import DodajProizvodSkladisteScreen from './app/screens/DodajProizvodSkladisteSc
 import DodavanjeNarudzbeScreen from './app/screens/DodavanjeNarudzbe'
 import {Provider as AuthProvider} from './app/context/AuthContext';
 import NarudzbeScreen from './app/screens/NarudzbeScreen'
+import DodajProizvodeNarudzbaScreen from './app/screens/DodajProizvodeNarudzbaScreen';
 import { navigationRef } from './app/RootNavigation';
 
 
@@ -56,6 +57,8 @@ function App() {
 
         <Stack.Screen name="NarudzbeS" component={NarudzbeScreen} />
         <Stack.Screen name="NarudzbeDodaj" component={DodavanjeNarudzbeScreen} />
+
+        <Stack.Screen name="ProizvodiNarudzba" component={DodajProizvodeNarudzbaScreen} />
 
       </Stack.Navigator>
     </NavigationContainer>
