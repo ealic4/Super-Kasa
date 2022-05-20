@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -17,22 +16,21 @@ import UvodjenjeProizvodaUPoslovniceScreen from './app/screens/UvodjenjeProizvod
 import ProizvodEditScreen from './app/screens/ProizvodEditScreen';
 import ListaPoslovnicaScreen from './app/screens/ListaPoslovnicaScreen'
 import DodajProizvodSkladisteScreen from './app/screens/DodajProizvodSkladisteScreen';
+import ListaProizvodaUPoslovniciScreen from "./app/screens/ListaProizvodaUPoslovniciScreen";
 import DodavanjeNarudzbeScreen from './app/screens/DodavanjeNarudzbe'
 import {Provider as AuthProvider} from './app/context/AuthContext';
 import NarudzbeScreen from './app/screens/NarudzbeScreen'
 import DodajProizvodeNarudzbaScreen from './app/screens/DodajProizvodeNarudzbaScreen';
-
 import { navigationRef } from './app/RootNavigation';
-
-
 
 const Stack = createNativeStackNavigator();
 
 function App() {
   return (
     <NavigationContainer ref={navigationRef}>
+
       <Stack.Navigator screenOptions={{contentStyle:{backgroundColor: 'transparent'},headerShown: false}}>
-      
+
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
 
@@ -48,6 +46,7 @@ function App() {
         <Stack.Screen name="AdminS" component={AdminSScreen} />
         <Stack.Screen name="ListaP" component={ListaProizvodaScreen} />
 
+
         <Stack.Screen name="PoslovnicaDodaj" component={DodavanjePoslovnicaScreen} />
         <Stack.Screen name="PoslovnicaDodajProizvod" component={UvodjenjeProizvodaUPoslovniceScreen} />
 
@@ -60,23 +59,16 @@ function App() {
         <Stack.Screen name="NarudzbeDodaj" component={DodavanjeNarudzbeScreen} />
 
         <Stack.Screen name="ProizvodiNarudzba" component={DodajProizvodeNarudzbaScreen} />
-
-
+        <Stack.Screen name="ProizvodiPoslovnice" component={ListaProizvodaUPoslovniciScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
-export default ()=>{
-
-  return(
-
+export default () => {
+  return (
     <AuthProvider>
-
-      <App/>
-
+      <App />
     </AuthProvider>
-
-  )
-
+  );
 };

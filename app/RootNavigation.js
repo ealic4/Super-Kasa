@@ -17,4 +17,10 @@ export function reset(name) {
   }
 }
 
+export function navigateParam(name, param) {
+  if (navigationRef.isReady()) {
+    navigationRef.navigate(name, {naziv:param})
+  }
+}
+
 // add other navigation functions that you need and export them

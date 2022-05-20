@@ -13,7 +13,7 @@ const poslovnicaSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  proizvodi: [],
 });
-
 
 module.exports = mongoose.model("Poslovnica", poslovnicaSchema);

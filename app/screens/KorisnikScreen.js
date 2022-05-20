@@ -18,18 +18,17 @@ function KorisnikScreen(){
   
   }
 
-  
-
+ 
   return (
 
     <SafeAreaView style={styles.container}>
 
         <Text style={styles.naslov}>KORISNIK</Text>
 
+
         <TouchableOpacity style={styles.narudzba} onPress={listaPos}>
         <Text style={styles.text}>NARUDZBE</Text>
         </TouchableOpacity>
-
         <TouchableOpacity style={styles.sifra} onPress={getItem}>
         <Text style={styles.text}>PROMJENA SIFRE</Text>
         </TouchableOpacity>
@@ -105,6 +104,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: "28%",
   },
+
 });
 
 
