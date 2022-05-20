@@ -11,28 +11,18 @@ function DodavanjeNarudzbeScreen({navigation,route}){
   
     const [naziv, setNaziv] = useState('');
     const [poslovnica, setPoslovnica] = useState("");
+    const [stol, setStol] = useState("");
+
 
   
     useFocusEffect(
       React.useCallback(() => {
             DropListaPoslovnica();
+            setPoslovnica(state.list2[0].poslovnica.naziv);
+            //setStol("Stol1")
       }, [])
     );
 
-    const lista = ()=>{
-
-        state.list2.forEach(element => {
-            console.log("lista: "+ element.poslovnica.naziv)
-        });
-        //setListaV(state.list2)
-        //console.log("lista2: "+ JSON.stringify(state.list2))
-        console.log("lista2: "+ state.list2[0].poslovnica.naziv)
-        //setListaV(state.state.list2)
-
-        console.log(renderProductList())
-
-
-    }
     const renderProductList = () => {
         return state.list2.map((poslovnica) => {
           return <Picker.Item label={poslovnica.poslovnica.naziv} value={poslovnica.poslovnica.naziv} key={poslovnica.poslovnica.id} />
@@ -53,7 +43,20 @@ function DodavanjeNarudzbeScreen({navigation,route}){
         {renderProductList()}
         </Picker>
 
-        <TouchableOpacity style={styles.button} onPress={()=>dodavanjeNarudzbe({naziv, poslovnica})}>
+        <Picker
+        style={styles.picker}
+        selectedValue={stol}
+        onValueChange={(itemValue) =>
+            setStol(itemValue)
+        }>
+          <Picker.Item label="Stol1" value="Stol1" />
+          <Picker.Item label="Stol2" value="Stol2" />
+          <Picker.Item label="Stol3" value="Stol3" />
+          <Picker.Item label="Stol4" value="Stol4" />
+          <Picker.Item label="Stol5" value="Stol5" />
+        </Picker>
+
+        <TouchableOpacity style={styles.button} onPress={()=>dodavanjeNarudzbe({naziv, poslovnica, stol})}>
         <Text style={styles.text}>DODAJ</Text>
         </TouchableOpacity>
     

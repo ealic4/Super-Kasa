@@ -457,9 +457,6 @@ router.get("/narudzbe/:idKorisnik", async (req, res) => {
 
   const narudzbe = await Narudzba.find(  { 'idKorisnik': req.params.idKorisnik });
 
-  console.log(narudzbe)
-  
-
   let listaNarudzbi = [];
 
   for (i = 0; i < narudzbe.length; i++) {
@@ -469,8 +466,8 @@ router.get("/narudzbe/:idKorisnik", async (req, res) => {
       narudzba: {
         id: narudzbe[i]._id,
         naziv: narudzbe[i].naziv,
+        stol: narudzbe[i].stol,
         nazivPoslovnce: pos.naziv,
-        proizvodi: narudzbe[i].proizvodi
       },
     };
     listaNarudzbi.push(temp);
@@ -482,13 +479,17 @@ router.get("/narudzbe/:idKorisnik", async (req, res) => {
 
 router.post("/dodajNarudzbu", async (req, res) => {
 
-  const { naziv, idKorisnik, poslovnica } = req.body;
+
+  const { naziv, idKorisnik, poslovnica, stol } = req.body;
 
   try {
 
+    var idProizvoda = '-';
+    var kolicina = '-';
     const pos = await Poslovnica.findOne(  { 'naziv': poslovnica });
     const idPoslovnice = pos._id
-    const narudzbe = new Narudzba({ naziv, idKorisnik, idPoslovnice});
+    const narudzbe = new Narudzba({ naziv, stol, idKorisnik, idPoslovnice, idProizvoda, kolicina });
+
 
     await narudzbe.save();
 

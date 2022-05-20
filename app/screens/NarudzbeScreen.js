@@ -42,6 +42,11 @@ const NarudzbeScreen = ({ navigation }) => {
             Poslovnica:  {narudzba.nazivPoslovnce}
           </Text>
         </ListItem.Subtitle>
+        <ListItem.Subtitle>
+          <Text>
+            Stol:  {narudzba.stol}
+          </Text>
+        </ListItem.Subtitle>
       </ListItem.Content>
       <Icon
         raised

@@ -5,6 +5,10 @@ const narudzbaSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  stol: {
+    type: String,
+    required: true,
+  },
   idKorisnik: {
     type: String,
     required: true,
@@ -13,7 +17,15 @@ const narudzbaSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  proizvodi: []
+
+  idProizvoda: {
+    type: String,
+    required: true,
+  },
+  kolicina: {
+    type: String,
+    required: true,
+  },
 });
 
 
