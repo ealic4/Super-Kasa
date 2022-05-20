@@ -118,9 +118,10 @@ router.post("/dodajPos", async (req, res) => {
 
   try {
     const posl = new Poslovnica({
-      naziv,
-      grad,
-      adresa,
+      naziv: naziv,
+      grad: grad,
+      adresa: adresa,
+      proizvodi: [],
     });
     await posl.save();
     res.send({ naziv: posl.naziv });
@@ -147,7 +148,6 @@ router.post("/dodajProSkladiste", async (req, res) => {
 });
 
 router.post("/dodajProSkladiste", async (req, res) => {
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const { naziv, kolicina, jedinica } = req.body;
   try {
     const proizvod = new Proizvod({
@@ -163,12 +163,51 @@ router.post("/dodajProSkladiste", async (req, res) => {
   }
 });
 
-router.get("/uvediPro/:naziv", async (req, res) => {
+router.post("/uvediPro", async (req, res) => {
   /////////////////////////////////////////////////////////////////RUTA ZA UVODJENJE PROIZVODA U POSLOVNICU//////////////////////////////////////////////////////////
+  const {naziv_poslovnice, stringparam} = req.body;
+  const proizvodi = stringparam.split(",");
+  try {
+    const poslovnica = await Poslovnica.findOne({ naziv: naziv_poslovnice });
 
-  const proizvod = await Proizvod.findOne({ naziv: req.params.naziv });
+    if(poslovnica) {
+      const stara_adresa = poslovnica.adresa;
+      const stari_grad = poslovnica.grad;
+      const novi_proizvodi = [];
 
-  res.send({ proizvod });
+      for(var i=0;i<proizvodi.length;i++) {
+        novi_proizvodi.push(proizvodi[i]);  
+      }
+
+
+      Poslovnica.deleteOne(
+        {
+          naziv: naziv_poslovnice
+        },
+        function (err, proizvod) {
+          if (err) res.send("Ne postoji poslovnica");
+  
+          console.log("Poslovnica removed!");
+          res.send("poslovnica Izbrisana");
+        }
+      );
+
+      const zamjena = new Poslovnica({
+        naziv:naziv_poslovnice,
+        grad:stari_grad,
+        adresa:stara_adresa,
+        proizvodi:novi_proizvodi
+      });
+
+      await zamjena.save();
+      res.send({ poruka: "uspjesno" });
+    }
+    else {
+      res.send("Ne postoji poslovnica");
+    }    
+  } catch (err) {
+    res.status(422).send({ error: "greska" });
+  }
 });
 
 router.post("/signin", async (req, res) => {
@@ -462,6 +501,7 @@ router.get("/poslovnice", async (req, res) => {
         naziv: poslovnice[i].naziv,
         grad: poslovnice[i].grad,
         adresa: poslovnice[i].adresa,
+        proizvodi: poslovnice[i].proizvodi,
       },
     };
     listaPoslovnica.push(temp);
@@ -476,6 +516,17 @@ router.delete("/poslovnice/:id", (req, res) => {
       res.send(result);
     })
     .catch((error) => console.error(error));
+});
+
+router.post("/proizvodi-poslovnice", async (req, res) => {
+  try {
+    let proizvodi = await Proizvod.find({ _id: { $in: req.body.proizvodi } });
+
+    res.send({ listaProizvoda: proizvodi });
+  } catch (err) {
+    console.log("Error sa bazom podataka");
+    console.error(err);
+  }
 });
 
 module.exports = router;

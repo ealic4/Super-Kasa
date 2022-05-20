@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as RootNavigation from "../RootNavigation";
 import createDataContext from "./CreateDataContext";
 import trackerApi from "../api/tracker";
+import Proizvod from "../../Server/src/models/Proizvod";
 
 const authReducer = (state, action) => {
   switch (action.type) {
@@ -211,6 +212,7 @@ const dodavanjeProizvodaSkladiste =
         stanje
       });
       console.log(response.data.proizvod.naziv);
+
       dispatch({ type: "dodajPro", payload: response.data });
     } catch (err) {
       console.log("NE RADI dodavanjeProizvodaSkladiste");
@@ -220,16 +222,15 @@ const dodavanjeProizvodaSkladiste =
   };
 
 const uvediProizvod = (dispatch) => async (naziv) => {
+
   try {
-    const response = await trackerApi.get("/uvediPro/" + naziv);
-    try {
-      console.log(response.jedinica);
-      dispatch({ type: "dodajPro", payload: response.naziv });
-    } catch (err) {
-      const response = await trackerApi.get("/uvediPro/" + naziv);
-      console.log(response.data.proizvod.jedinica);
-      dispatch({ type: "dodajPro", payload: response.data });
-    }
+    console.log("proizvodi:"+ stringparam +" se uvode u poslovnicu "+ naziv_poslovnice)
+    const response = await trackerApi.post("/uvediPro", {
+      naziv_poslovnice,
+      stringparam
+    });
+    console.log(response.data.poslovnica.naziv);
+    dispatch({ type: "dodajPro", payload: response.data });
   } catch (e) {
     console.log("Ne radi uvođenje proizvoda!");
     console.log(e);
@@ -507,8 +508,9 @@ const ListaPoslovnica = (dispatch) => async () => {
   }
 };
 
-const listaProizvodaPos = (dispatch) => async () => {
+const listaProizvodaPos = (dispatch) => async (naziv_poslovnice) => { ///////////////////////////////////////////////////////////////////////////////////////UVODJENJE PROIZVODA////////////////////////////////////////////////////////////////////////////
   try {
+    console.log("otvorili smo poslovnicu "+ naziv_poslovnice)
     const response = await trackerApi.get("/proizvodi");
 
     try {
@@ -520,20 +522,37 @@ const listaProizvodaPos = (dispatch) => async () => {
       dispatch({ type: "list", payload: response.data.listaP });
       console.log("2: " + response.data.listaP[0].proizvod.id);
     }
+    console.log("prosli su zahtjevi sada saljemo " + naziv_poslovnice + " na ekran")
 
-    RootNavigation.navigate("PoslovnicaDodajProizvod");
+    RootNavigation.navigateParam("PoslovnicaDodajProizvod", naziv_poslovnice);
   } catch (err) {
-    console.log("NEEE RADI listaProizvodaPos");
+    console.log(err);
 
     dispatch({ type: "add_error", payload: "Doslo je do greske" });
   }
 };
 
+
+
 const obrisiPoslovnicu = (dispatch) => async (poslovnicaID) => {
   try {
     const response = await trackerApi.delete("/poslovnice/" + poslovnicaID);
   } catch (err) {
-    console.log("NEEE RADI obrisiKorisnika");
+    console.log("NEEE RADI birsanje poslovnice");
+
+    dispatch({ type: "add_error", payload: "Doslo je do greske" });
+  }
+};
+
+const proizvodiIzPoslovnice = (dispatch) => async (proizvodi) => {
+  try {
+    const response = await trackerApi.post("/proizvodi-poslovnice", {
+      proizvodi: proizvodi,
+    });
+    return response.data;
+  } catch (err) {
+    console.log("Error kod odgovora rute 'proizvodi-poslovnice'");
+    console.error(err);
 
     dispatch({ type: "add_error", payload: "Doslo je do greske" });
   }
@@ -565,6 +584,8 @@ export const { Provider, Context } = createDataContext(
     obrisiPoslovnicu,
     dodavanjeProizvodaSkladiste,
     preuzimanjeProizvoda,
+    proizvodiIzPoslovnice,
+
   },
 
   { token: null, errorMessage: "", dodan: "", list: null, edit: "" }

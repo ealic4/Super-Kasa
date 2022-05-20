@@ -19,12 +19,13 @@ const ListaPoslovnicaScreen = ({ navigation }) => {
   useFocusEffect(
     React.useCallback(() => {
       setLista(state.list);
+
+      console.log("idemoooo");
     }, [])
   );
 
-  const handleDelete = () => {
-    obrisiPoslovnicu(dialog.idPoslovnice);
-    let dialogCopy = { ...dialog };
+  const handleDelete = async () => {
+    await obrisiPoslovnicu(dialog.idPoslovnice);
     let listNewState = lista.filter(
       (item) => item.poslovnica.id !== dialog.idPoslovnice
     );
@@ -33,7 +34,11 @@ const ListaPoslovnicaScreen = ({ navigation }) => {
   };
 
   const ItemRender = ({ poslovnica }) => (
-    <ListItem bottomDivider containerStyle={{ margin: 3 }}>
+    <ListItem
+      onPress={() => navigation.navigate("ProizvodiPoslovnice", { poslovnica })}
+      bottomDivider
+      containerStyle={{ margin: 3 }}
+    >
       <ListItem.Content>
         <ListItem.Title h3 h3Style={{ fontWeight: "bold" }}>
           <Text>{poslovnica.naziv}</Text>
@@ -103,7 +108,7 @@ const ListaPoslovnicaScreen = ({ navigation }) => {
               />
               <IconButton
                 icon="check"
-                onPress={() => handleDelete()}
+                onPress={async () => await handleDelete()}
                 style={{ margin: 10 }}
               />
             </Dialog.Actions>
